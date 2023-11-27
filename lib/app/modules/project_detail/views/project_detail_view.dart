@@ -137,6 +137,64 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                           Divider(
                             color: Colors.grey.shade300,
                           ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_outlined,
+                                color: Colors.black45,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Remote',
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.timelapse_rounded,
+                                color: Colors.black45,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                'Full Time',
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                ),
+                              ),
+                            ],
+                          ),
+                           const SizedBox(
+                            height: 12,
+                          ),
+                          Divider(
+                            color: Colors.grey.shade300,
+                          ),
+                          Container(
+                            child: Text('Job Description', style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            child: Text('We are looking for a Mobile Developer who will join our team to develop and maintain high quality mobile applications. You will be working alongside other engineers and developers working on different layers of the infrastructure. Therefore, a commitment to collaborative problem solving, sophisticated design, and the creation of quality products is essential.', style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade600,
+                            ),),
+                          ),
                         ],
                       ),
                     )
