@@ -12,21 +12,20 @@ class ProjectView extends GetView<ProjectController> {
     final theme = Theme.of(context);
     return Scaffold(
         body: SingleChildScrollView(
-          child: Column(
-              children: [
-          ProjectHeaderWidget(),
-          BannerProject(),
-          ProjectListing(),
-          ProjectListing(),
-          ProjectListing(),
-          ProjectListing(),
-          // ListView.builder(
-          //     itemCount: 7,
-          //     itemBuilder: (_, index) {
-          //       return ProjectListing();
-          //     }),
-              ],
-            ),
-        ));
+      child: Column(
+        children: [
+          const ProjectHeaderWidget(),
+          const BannerProject(),
+          ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return const ProjectListing();
+              })
+        ],
+      ),
+    ));
   }
 }

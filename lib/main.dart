@@ -44,7 +44,7 @@ Future<void> main() async {
       builder: (context, widget) {
         return GetMaterialApp(
               // todo add your app name
-              title: "GetXSkeleton",
+              title: "SukaColab",
               useInheritedMediaQuery: true,
               debugShowCheckedModeBanner: false,
               builder: (context,widget) {

@@ -15,6 +15,9 @@ class ProjectHeaderWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 16,
+            ),
             Row(
               children: [
                 const CircleAvatar(),
@@ -43,11 +46,14 @@ class ProjectHeaderWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                     ),
-                    child: Expanded(
-                        child: TextField(
-                      decoration: InputDecoration(
-                          hintText: 'Start with joining project here!'),
-                    )),
+                    child: const Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Start with joining project here!',
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -80,7 +86,7 @@ class BannerProject extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: EdgeInsets.all(10),
       width: double.infinity,
       height: 130,
