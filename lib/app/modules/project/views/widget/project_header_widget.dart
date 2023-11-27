@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../../routes/app_pages.dart';
 
 class ProjectHeaderWidget extends StatelessWidget {
   const ProjectHeaderWidget({super.key});
@@ -125,67 +128,72 @@ class ProjectListing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      padding: EdgeInsets.all(10),
-      width: double.infinity,
-      height: 170,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade300,
-              blurRadius: 15,
-              offset: Offset.zero,
+    return InkWell(
+      onTap: () {
+        Get.toNamed(Routes.PROJECT_DETAIL);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: EdgeInsets.all(10),
+        width: double.infinity,
+        height: 170,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade300,
+                blurRadius: 15,
+                offset: Offset.zero,
+              ),
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 15,
+                offset: Offset.zero,
+              )
+            ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(
+                      Icons.work_outline_rounded,
+                      size: 45,
+                      color: Colors.black,
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.bookmark_outline,
+                          size: 32,
+                          color: Colors.grey[600],
+                        ))
+                  ],
+                )),
+            SizedBox(
+              width: 8,
             ),
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 15,
-              offset: Offset.zero,
-            )
-          ]),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.work_outline_rounded,
-                    size: 45,
-                    color: Colors.black,
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.bookmark_outline,
-                        size: 32,
-                        color: Colors.grey[600],
-                      ))
-                ],
-              )),
-          SizedBox(
-            width: 8,
-          ),
-          Text('Mobile Developer',
-              style: theme.textTheme.bodyLarge!.copyWith(
-                color: Colors.cyan[900],
-              )),
-          Text('4 Day ago',
-              style: theme.textTheme.bodyMedium!.copyWith(
-                color: Colors.grey,
-              )),
-          const SizedBox(
-            height: 12,
-          ),
-          Text('Remote, Virtual',
-              style: theme.textTheme.bodyLarge!.copyWith(
-                color: Colors.black,
-              )),
-        ],
+            Text('Mobile Developer',
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  color: Colors.cyan[900],
+                )),
+            Text('4 Day ago',
+                style: theme.textTheme.bodyMedium!.copyWith(
+                  color: Colors.grey,
+                )),
+            const SizedBox(
+              height: 12,
+            ),
+            Text('Remote, Virtual',
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  color: Colors.black,
+                )),
+          ],
+        ),
       ),
     );
   }

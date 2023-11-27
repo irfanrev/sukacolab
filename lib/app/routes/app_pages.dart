@@ -6,6 +6,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/project/bindings/project_binding.dart';
 import '../modules/project/views/project_view.dart';
+import '../modules/project_detail/bindings/project_detail_binding.dart';
+import '../modules/project_detail/views/project_detail_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.PROJECT,
       page: () => const ProjectView(),
       binding: ProjectBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROJECT_DETAIL,
+      page: () => const ProjectDetailView(),
+      binding: ProjectDetailBinding(),
     ),
   ];
 }
