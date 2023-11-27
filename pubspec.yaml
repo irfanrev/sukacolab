@@ -31,8 +31,10 @@ dependencies:
 
   flutter_svg:  # display svg vectors
 
+
   flutter:
     sdk: flutter
+  responsive_navigation_bar: ^4.0.4
 
 dev_dependencies:
   mockito:
