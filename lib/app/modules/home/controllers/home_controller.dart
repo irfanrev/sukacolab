@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/bookmark/views/bookmark_view.dart';
+import 'package:getx_skeleton/app/modules/community/views/community_view.dart';
 import 'package:getx_skeleton/app/modules/profile/views/profile_view.dart';
 import 'package:getx_skeleton/app/modules/project/views/project_view.dart';
 
@@ -19,6 +20,7 @@ class HomeController extends GetxController {
 
   List<Widget> pages = [
     const ProjectView(),
+    const CommunityView(),
     const BookmarkView(),
     const ProfileView(),
   ];

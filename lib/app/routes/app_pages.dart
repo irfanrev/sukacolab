@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/bookmark/bindings/bookmark_binding.dart';
 import '../modules/bookmark/views/bookmark_view.dart';
+import '../modules/community/bindings/community_binding.dart';
+import '../modules/community/views/community_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.BOOKMARK,
       page: () => const BookmarkView(),
       binding: BookmarkBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMMUNITY,
+      page: () => const CommunityView(),
+      binding: CommunityBinding(),
     ),
   ];
 }

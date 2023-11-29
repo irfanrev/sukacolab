@@ -23,35 +23,31 @@ class HomeView extends GetView<HomeController> {
         //body for each bottombar
         body: controller.pages[controller.selectedIndex.value],
         extendBody: true,
-        bottomNavigationBar: ResponsiveNavigationBar(
-          selectedIndex: controller.selectedIndex.value,
-          onTabChange: controller.changeTab,
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: controller.selectedIndex.value,
+          onTap: controller.changeTab,
+          showUnselectedLabels: false,
+          showSelectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.cyan[600],
+          unselectedItemColor: Colors.grey[400],
           // showActiveButtonText: false,
-          textStyle: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-          navigationBarButtons: const <NavigationBarButton>[
-            NavigationBarButton(
-              text: 'Home',
-              icon: Icons.home_filled,
-              backgroundGradient: LinearGradient(
-                colors: [Colors.cyan, Colors.teal],
-              ),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
             ),
-            NavigationBarButton(
-              text: 'Bookmark',
-              icon: Icons.bookmark,
-              backgroundGradient: LinearGradient(
-                colors: [Colors.cyan, Colors.teal],
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_search_rounded),
+              label: 'User',
             ),
-            NavigationBarButton(
-              text: 'Profile',
-              icon: Icons.person,
-              backgroundGradient: LinearGradient(
-                colors: [Colors.cyan, Colors.teal],
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark),
+              label: 'Bookmart',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
             ),
           ],
         ),

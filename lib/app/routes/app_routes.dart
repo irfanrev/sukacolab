@@ -10,6 +10,7 @@ abstract class Routes {
   static const PROJECT_DETAIL = _Paths.PROJECT_DETAIL;
   static const PROFILE = _Paths.PROFILE;
   static const BOOKMARK = _Paths.BOOKMARK;
+  static const COMMUNITY = _Paths.COMMUNITY;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const PROJECT_DETAIL = '/project-detail';
   static const PROFILE = '/profile';
   static const BOOKMARK = '/bookmark';
+  static const COMMUNITY = '/community';
 }
