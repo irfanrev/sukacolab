@@ -11,6 +11,14 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const BOOKMARK = _Paths.BOOKMARK;
   static const COMMUNITY = _Paths.COMMUNITY;
+  static const PROFILE_EDIT_PROFILE =
+      _Paths.PROFILE + _Paths.PROFILE_EDIT_PROFILE;
+  static const PROFILE_EDIT_EXPERIENCE =
+      _Paths.PROFILE + _Paths.PROFILE_EDIT_EXPERIENCE;
+  static const PROFILE_EDIT_LICENSES =
+      _Paths.PROFILE + _Paths.PROFILE_EDIT_LICENSES;
+  static const PROFILE_EDIT_SKILL =
+      _Paths.PROFILE + _Paths.PROFILE_EDIT_SKILL;
 }
 
 abstract class _Paths {
@@ -23,4 +31,8 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const BOOKMARK = '/bookmark';
   static const COMMUNITY = '/community';
+  static const PROFILE_EDIT_PROFILE = '/edit-profile';
+  static const PROFILE_EDIT_EXPERIENCE = '/edit-experience';
+  static const PROFILE_EDIT_LICENSES = '/edit-licenses';
+  static const PROFILE_EDIT_SKILL = '/edit-skill';
 }

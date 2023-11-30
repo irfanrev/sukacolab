@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
-
-  ScrollController scrollController = ScrollController();
+class ProfileEditSkillController extends GetxController {
+  //TODO: Implement ProfileEditSkillController
 
   final count = 0.obs;
   @override

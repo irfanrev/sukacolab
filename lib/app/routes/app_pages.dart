@@ -9,6 +9,14 @@ import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/edit_experience/bindings/profile_edit_experience_binding.dart';
+import '../modules/profile/edit_experience/views/profile_edit_experience_view.dart';
+import '../modules/profile/edit_licenses/bindings/profile_edit_licenses_binding.dart';
+import '../modules/profile/edit_licenses/views/profile_edit_licenses_view.dart';
+import '../modules/profile/edit_profile/bindings/profile_edit_profile_binding.dart';
+import '../modules/profile/edit_profile/views/profile_edit_profile_view.dart';
+import '../modules/profile/edit_skill/bindings/profile_edit_skill_binding.dart';
+import '../modules/profile/edit_skill/views/profile_edit_skill_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/project/bindings/project_binding.dart';
 import '../modules/project/views/project_view.dart';
@@ -54,6 +62,28 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+      children: [
+        GetPage(
+          name: _Paths.PROFILE_EDIT_PROFILE,
+          page: () => const ProfileEditProfileView(),
+          binding: ProfileEditProfileBinding(),
+        ),
+        GetPage(
+          name: _Paths.PROFILE_EDIT_EXPERIENCE,
+          page: () => const ProfileEditExperienceView(),
+          binding: ProfileEditExperienceBinding(),
+        ),
+        GetPage(
+          name: _Paths.PROFILE_EDIT_LICENSES,
+          page: () => const ProfileEditLicensesView(),
+          binding: ProfileEditLicensesBinding(),
+        ),
+        GetPage(
+          name: _Paths.PROFILE_EDIT_SKILL,
+          page: () => const ProfileEditSkillView(),
+          binding: ProfileEditSkillBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.BOOKMARK,

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_experience.dart';
+import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_header.dart';
+import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_licence.dart';
+import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_skills.dart';
+import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_summary.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -9,16 +14,44 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ProfileView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'ProfileView is working',
-          style: TextStyle(fontSize: 20),
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          backgroundColor: Colors.cyan[600],
+          title: const Text(''),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.share),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.settings),
+            ),
+          ],
+          centerTitle: true,
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+         // controller: controller.scrollController,
+          scrollDirection: Axis.vertical,
+          primary: true,
+          child: Column(
+            children: [
+              ProfileHeader(),
+              SizedBox(
+                height: 16,
+              ),
+              ProfileSummary(),
+              SizedBox(
+                height: 16,
+              ),
+              ProfileExperience(),
+              ProfileCertification(),
+              ProfileSkills(),
+              SizedBox(
+                height: 60,
+              ),
+            ],
+          ),
+        ));
   }
 }
