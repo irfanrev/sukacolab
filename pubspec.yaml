@@ -31,10 +31,10 @@ dependencies:
 
   flutter_svg:  # display svg vectors
 
-
   flutter:
     sdk: flutter
-  responsive_navigation_bar: ^4.0.4
+  cloud_firestore: ^4.13.3
+  firebase_auth: ^4.15.0
 
 dev_dependencies:
   mockito:

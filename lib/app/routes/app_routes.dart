@@ -17,8 +17,8 @@ abstract class Routes {
       _Paths.PROFILE + _Paths.PROFILE_EDIT_EXPERIENCE;
   static const PROFILE_EDIT_LICENSES =
       _Paths.PROFILE + _Paths.PROFILE_EDIT_LICENSES;
-  static const PROFILE_EDIT_SKILL =
-      _Paths.PROFILE + _Paths.PROFILE_EDIT_SKILL;
+  static const PROFILE_EDIT_SKILL = _Paths.PROFILE + _Paths.PROFILE_EDIT_SKILL;
+  static const PROFILE_EDIT_RESUME = _Paths.PROFILE + _Paths.PROFILE_EDIT_RESUME;
 }
 
 abstract class _Paths {
@@ -35,4 +35,5 @@ abstract class _Paths {
   static const PROFILE_EDIT_EXPERIENCE = '/edit-experience';
   static const PROFILE_EDIT_LICENSES = '/edit-licenses';
   static const PROFILE_EDIT_SKILL = '/edit-skill';
+  static const PROFILE_EDIT_RESUME = '/edit-resume';
 }

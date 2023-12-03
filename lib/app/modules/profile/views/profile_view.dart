@@ -8,6 +8,7 @@ import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_skills.d
 import 'package:getx_skeleton/app/modules/profile/views/widgets/profile_summary.dart';
 
 import '../controllers/profile_controller.dart';
+import 'widgets/profile_resume.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
@@ -48,7 +49,11 @@ class ProfileView extends GetView<ProfileController> {
               ProfileCertification(),
               ProfileSkills(),
               SizedBox(
-                height: 60,
+                height: 16,
+              ),
+              ProfileResume(),
+              SizedBox(
+                height: 100,
               ),
             ],
           ),

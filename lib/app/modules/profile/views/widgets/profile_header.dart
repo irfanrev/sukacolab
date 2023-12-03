@@ -7,7 +7,7 @@ class ProfileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 200,
+      height: 180,
       color: Colors.cyan[600],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -19,7 +19,7 @@ class ProjectHeaderWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
             Row(
               children: [
@@ -111,10 +111,30 @@ class BannerProject extends StatelessWidget {
             width: 8,
           ),
           Expanded(
-            child: Text('Join with Developer Team Now!',
-                style: theme.textTheme.headlineSmall!.copyWith(
-                  color: Colors.white,
-                )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Have a project and need help?',
+                    style: theme.textTheme.headlineSmall!.copyWith(
+                      color: Colors.white,
+                    )),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  margin: EdgeInsets.only(top: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    color: Colors.amber,
+                  ),
+                  child: Text(
+                    'Contact us now!',
+                    style: theme.textTheme.bodyLarge!.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),
@@ -123,7 +143,8 @@ class BannerProject extends StatelessWidget {
 }
 
 class ProjectListing extends StatelessWidget {
-  const ProjectListing({super.key});
+  ProjectListing({this.snap});
+  final snap;
 
   @override
   Widget build(BuildContext context) {
@@ -177,21 +198,23 @@ class ProjectListing extends StatelessWidget {
             SizedBox(
               width: 8,
             ),
-            Text('Mobile Developer',
+            Text(snap['title'],
                 style: theme.textTheme.bodyLarge!.copyWith(
                   color: Colors.cyan[900],
                 )),
-            Text('4 Day ago',
+            Text('6 days ago',
                 style: theme.textTheme.bodyMedium!.copyWith(
                   color: Colors.grey,
                 )),
             const SizedBox(
               height: 12,
             ),
-            Text('Remote, Virtual',
-                style: theme.textTheme.bodyLarge!.copyWith(
-                  color: Colors.black,
-                )),
+            Text(
+              snap['location'],
+              style: theme.textTheme.bodyLarge!.copyWith(
+                color: Colors.black,
+              ),
+            ),
           ],
         ),
       ),

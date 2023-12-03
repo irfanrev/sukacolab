@@ -15,6 +15,8 @@ import '../modules/profile/edit_licenses/bindings/profile_edit_licenses_binding.
 import '../modules/profile/edit_licenses/views/profile_edit_licenses_view.dart';
 import '../modules/profile/edit_profile/bindings/profile_edit_profile_binding.dart';
 import '../modules/profile/edit_profile/views/profile_edit_profile_view.dart';
+import '../modules/profile/edit_resume/bindings/profile_edit_resume_binding.dart';
+import '../modules/profile/edit_resume/views/profile_edit_resume_view.dart';
 import '../modules/profile/edit_skill/bindings/profile_edit_skill_binding.dart';
 import '../modules/profile/edit_skill/views/profile_edit_skill_view.dart';
 import '../modules/profile/views/profile_view.dart';
@@ -82,6 +84,11 @@ class AppPages {
           name: _Paths.PROFILE_EDIT_SKILL,
           page: () => const ProfileEditSkillView(),
           binding: ProfileEditSkillBinding(),
+        ),
+        GetPage(
+          name: _Paths.PROFILE_EDIT_RESUME,
+          page: () => const ProfileEditResumeView(),
+          binding: ProfileEditResumeBinding(),
         ),
       ],
     ),

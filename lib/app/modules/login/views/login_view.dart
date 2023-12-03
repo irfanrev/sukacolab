@@ -16,66 +16,76 @@ class LoginView extends GetView<LoginController> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset('assets/images/sukacode-logo.svg'),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Welcome to SukaColab',
-            style: theme.textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 62,
             ),
-          ),
-          Text('Sign in to Continue',
+            SvgPicture.asset('assets/images/sukacode-logo.svg'),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Welcome to SukaColab',
               style: theme.textTheme.bodyLarge!.copyWith(
-                color: theme.textTheme.bodyLarge!.color!.withOpacity(0.5),
-              )),
-          const SizedBox(
-            height: 46,
-          ),
-          CustomTextfield(
-            hintText: 'Your Email',
-            prefixIcon: Icons.email_outlined,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          CustomTextfield(
-            hintText: 'Your Password',
-            prefixIcon: Icons.lock_outline,
-            obscureText: true,
-          ),
-          const SizedBox(
-            height: 32,
-          ),
-          CustomButton(
-            onTap: () => Get.offAllNamed(Routes.HOME),
-            text: 'Sign In',
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text('Forgot Password?'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Don\'t have an account?'),
-              TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.REGISTER);
-                },
-                child: Text('Sign Up'),
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
-            ],
-          ),
-        ],
+            ),
+            Text('Sign in to Continue',
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  color: theme.textTheme.bodyLarge!.color!.withOpacity(0.5),
+                )),
+            const SizedBox(
+              height: 46,
+            ),
+            CustomTextfield(
+              hintText: 'Your Email',
+              prefixIcon: Icons.email_outlined,
+              controller: controller.emailController,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            CustomTextfield(
+              hintText: 'Your Password',
+              prefixIcon: Icons.lock_outline,
+              obscureText: true,
+              controller: controller.passwordController,
+            ),
+            const SizedBox(
+              height: 32,
+            ),
+            Obx(
+              () => CustomButton(
+                onTap: () => controller.login(),
+                text: 'Sign In',
+                isLoading: controller.isLoading.value,
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('Forgot Password?'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Don\'t have an account?'),
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.REGISTER);
+                  },
+                  child: Text('Sign Up'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     ));
   }

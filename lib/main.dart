@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_skeleton/utils/awesome_notifications_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/data/local/my_hive.dart';
 import 'app/data/local/my_shared_pref.dart';
@@ -15,6 +17,8 @@ import 'utils/fcm_helper.dart';
 Future<void> main() async {
   // wait for bindings
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   // initialize local db (hive) and register our custom adapters
   await MyHive.init(
@@ -32,6 +36,8 @@ Future<void> main() async {
 
   // initialize local notifications service
   await AwesomeNotificationsHelper.init();
+
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   runApp(
     ScreenUtilInit(
@@ -59,7 +65,7 @@ Future<void> main() async {
                   ),
                 );
               },
-              initialRoute: AppPages.INITIAL, // first screen to show when app is running
+              initialRoute: (prefs.getString('localUserEmail') == null ? Routes.LOGIN : Routes.HOME), // first screen to show when app is running
               getPages: AppPages.routes, // app screens
               locale: MySharedPref.getCurrentLocal(), // app language
               translations: LocalizationService.getInstance(), // localization services in app (controller app language)
