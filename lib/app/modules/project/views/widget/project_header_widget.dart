@@ -151,7 +151,7 @@ class ProjectListing extends StatelessWidget {
     final theme = Theme.of(context);
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.PROJECT_DETAIL);
+        Get.toNamed(Routes.PROJECT_DETAIL, arguments: snap);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -181,10 +181,9 @@ class ProjectListing extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      Icons.work_outline_rounded,
-                      size: 45,
-                      color: Colors.black,
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(snap['imageUrl']),
                     ),
                     IconButton(
                         onPressed: () {},

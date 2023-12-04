@@ -13,11 +13,17 @@ class ProfileEditResumeView extends GetView<ProfileEditResumeController> {
         title: const Text('ProfileEditResumeView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'ProfileEditResumeView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: Column(
+        children: [
+          Container(
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Name',
+              ),
+            maxLength: 8,
+            ),
+          ),
+        ],
       ),
     );
   }

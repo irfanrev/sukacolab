@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/project_detail/views/widgets/project_detail_appbar.dart';
+import 'package:getx_skeleton/app/routes/app_pages.dart';
 
 import '../controllers/project_detail_controller.dart';
 
@@ -9,6 +10,8 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
   const ProjectDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final data = Get.arguments;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyan[600],
@@ -16,11 +19,11 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Mobile Developer',
+              data['title'],
               style: TextStyle(fontSize: 16),
             ),
             Text(
-              'Sukacode Project',
+              data['project_name'],
               style: TextStyle(fontSize: 12),
             ),
           ],
@@ -44,7 +47,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                       width: double.infinity,
                       height: 110,
                       child: Image.network(
-                        'https://picsum.photos/seed/picsum/200/300',
+                        data['imageUrl'],
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -60,8 +63,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                           shape: BoxShape.circle,
                           color: Colors.amber,
                           image: DecorationImage(
-                            image: NetworkImage(
-                                'https://picsum.photos/seed/picsum/200/300'),
+                            image: NetworkImage(data['imageUrl']),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -76,7 +78,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Mobile Developer',
+                            data['title'],
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.cyan[900],
@@ -84,7 +86,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                             ),
                           ),
                           Text(
-                            'Sukacode Project',
+                            data['project_name'],
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey,
@@ -147,7 +149,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                                 width: 8,
                               ),
                               Text(
-                                'Remote',
+                                data['location'],
                                 style: TextStyle(
                                   color: Colors.grey.shade400,
                                 ),
@@ -167,33 +169,39 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                                 width: 8,
                               ),
                               Text(
-                                'Full Time',
+                                data['status'],
                                 style: TextStyle(
                                   color: Colors.grey.shade400,
                                 ),
                               ),
                             ],
                           ),
-                           const SizedBox(
+                          const SizedBox(
                             height: 12,
                           ),
                           Divider(
                             color: Colors.grey.shade300,
                           ),
                           Container(
-                            child: Text('Job Description', style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),),
+                            child: Text(
+                              'Job Description',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 8,
                           ),
                           Container(
-                            child: Text('We are looking for a Mobile Developer who will join our team to develop and maintain high quality mobile applications. You will be working alongside other engineers and developers working on different layers of the infrastructure. Therefore, a commitment to collaborative problem solving, sophisticated design, and the creation of quality products is essential.', style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey.shade600,
-                            ),),
+                            child: Text(
+                              data['jobdesc'],
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -235,7 +243,96 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.cyan[600],
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        final dataProject = Get.arguments;
+                        Get.defaultDialog(
+                          title: 'Join Project',
+                          content: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                Text('Are you sure want to join this project?'),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                Obx(
+                                  () => controller.isLoading.value
+                                      ? CircularProgressIndicator()
+                                      : Container(
+                                          padding: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Colors.amber[50],
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: Text(
+                                            'All your profile data will be sent to the project owner and if you are accepted, you will be contacted by the project ownwer.',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.amber,
+                                            ),
+                                          ),
+                                        ),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.grey.shade200,
+                                      ),
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 6),
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(
+                                            color: Colors.cyan[900],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.cyan[600],
+                                      ),
+                                      onPressed: () {
+                                        controller.joinProject(
+                                          'irfan@mail.com',
+                                          dataProject['uuid'],
+                                          dataProject['title'],
+                                          dataProject['project_name'],
+                                          dataProject['location'],
+                                          dataProject['published_at']
+                                              .toString(),
+                                        );
+                                        Get.back();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 6),
+                                        child: Text('Join Project'),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 12,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 3),
                         child: Text('Join Project'),

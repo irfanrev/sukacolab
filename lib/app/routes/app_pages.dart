@@ -21,6 +21,8 @@ import '../modules/profile/edit_skill/bindings/profile_edit_skill_binding.dart';
 import '../modules/profile/edit_skill/views/profile_edit_skill_view.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/project/bindings/project_binding.dart';
+import '../modules/project/project_apply/bindings/project_project_apply_binding.dart';
+import '../modules/project/project_apply/views/project_project_apply_view.dart';
 import '../modules/project/views/project_view.dart';
 import '../modules/project_detail/bindings/project_detail_binding.dart';
 import '../modules/project_detail/views/project_detail_view.dart';
@@ -54,6 +56,13 @@ class AppPages {
       name: _Paths.PROJECT,
       page: () => const ProjectView(),
       binding: ProjectBinding(),
+      children: [
+        GetPage(
+          name: _Paths.PROJECT_PROJECT_APPLY,
+          page: () => const ProjectProjectApplyView(),
+          binding: ProjectProjectApplyBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.PROJECT_DETAIL,

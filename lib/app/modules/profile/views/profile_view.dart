@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -14,49 +15,52 @@ class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        backgroundColor: Colors.grey[200],
-        appBar: AppBar(
-          backgroundColor: Colors.cyan[600],
-          title: const Text(''),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.share),
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        backgroundColor: Colors.cyan[600],
+        title: const Text(''),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.share),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.settings),
+          ),
+        ],
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        controller: controller.scrollController,
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            ProfileHeader(),
+            SizedBox(
+              height: 16,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.settings),
+            ProfileSummary(
+              
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            ProfileExperience(),
+            ProfileCertification(),
+            ProfileSkills(),
+            SizedBox(
+              height: 16,
+            ),
+            ProfileResume(),
+            SizedBox(
+              height: 100,
             ),
           ],
-          centerTitle: true,
         ),
-        body: SingleChildScrollView(
-         // controller: controller.scrollController,
-          scrollDirection: Axis.vertical,
-          primary: true,
-          child: Column(
-            children: [
-              ProfileHeader(),
-              SizedBox(
-                height: 16,
-              ),
-              ProfileSummary(),
-              SizedBox(
-                height: 16,
-              ),
-              ProfileExperience(),
-              ProfileCertification(),
-              ProfileSkills(),
-              SizedBox(
-                height: 16,
-              ),
-              ProfileResume(),
-              SizedBox(
-                height: 100,
-              ),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }

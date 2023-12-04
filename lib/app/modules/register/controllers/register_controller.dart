@@ -51,13 +51,8 @@ class RegisterController extends GetxController {
           'email': emailController.text,
           'summary': '',
           'photoUrl': 'https://avatar.iran.liara.run/public/48',
-          'createdAt': DateTime.now(),
-          'experience': [],
-          'skills': [],
-          'certificate': [],
-          'resume': '',
-          'bookmarks': [],
-          'applications': [],
+          'createdAt': DateTime.now().toString(),
+          'isVerified': false,
         });
         Get.defaultDialog(
           title: 'Success',

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_skeleton/utils/awesome_notifications_helper.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/data/local/my_hive.dart';
@@ -21,12 +22,10 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   // initialize local db (hive) and register our custom adapters
-  await MyHive.init(
-      registerAdapters: (hive) {
-        hive.registerAdapter(UserModelAdapter());
-        //myHive.registerAdapter(OtherAdapter());
-      }
-  );
+  await MyHive.init(registerAdapters: (hive) {
+    hive.registerAdapter(UserModelAdapter());
+    //myHive.registerAdapter(OtherAdapter());
+  });
 
   // init shared preference
   await MySharedPref.init();
@@ -49,27 +48,33 @@ Future<void> main() async {
       rebuildFactor: (old, data) => true,
       builder: (context, widget) {
         return GetMaterialApp(
-              // todo add your app name
-              title: "SukaColab",
-              useInheritedMediaQuery: true,
-              debugShowCheckedModeBanner: false,
-              builder: (context,widget) {
-                bool themeIsLight = MySharedPref.getThemeIsLight();
-                return Theme(
-                  data: MyTheme.getThemeData(isLight: themeIsLight),
-                  child: MediaQuery(
-                    // prevent font from scalling (some people use big/small device fonts)
-                    // but we want our app font to still the same and dont get affected
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    child: widget!,
-                  ),
-                );
-              },
-              initialRoute: (prefs.getString('localUserEmail') == null ? Routes.LOGIN : Routes.HOME), // first screen to show when app is running
-              getPages: AppPages.routes, // app screens
-              locale: MySharedPref.getCurrentLocal(), // app language
-              translations: LocalizationService.getInstance(), // localization services in app (controller app language)
+          // todo add your app name
+          title: "SukaColab",
+          useInheritedMediaQuery: true,
+          debugShowCheckedModeBanner: false,
+          builder: (context, widget) {
+            bool themeIsLight = MySharedPref.getThemeIsLight();
+            return Theme(
+              data: MyTheme.getThemeData(isLight: themeIsLight),
+              child: MediaQuery(
+                // prevent font from scalling (some people use big/small device fonts)
+                // but we want our app font to still the same and dont get affected
+                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                child: widget!,
+              ),
             );
+          },
+          initialRoute: (prefs.getString('localUserEmail') == null
+              ? Routes.LOGIN
+              : Routes.HOME), // first screen to show when app is running
+          getPages: AppPages.routes, // app screens
+          locale: MySharedPref.getCurrentLocal(), // app language
+          translations: LocalizationService
+              .getInstance(), // localization services in app (controller app language)
+          localizationsDelegates: [
+            MonthYearPickerLocalizations.delegate,
+          ],
+        );
       },
     ),
   );

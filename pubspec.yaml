@@ -23,7 +23,7 @@ dependencies:
 
   firebase_core: ^2.14.0 # to initialize firebase services
   firebase_messaging: ^14.6.4 # fcm services
-  awesome_notifications: ^0.7.4+1 # notifications services (will be used for fcm)
+  awesome_notifications: ^0.8.2 # notifications services (will be used for fcm)
 
   flutter_launcher_icons: # change app icon
   change_app_package_name: # change package name
@@ -35,6 +35,8 @@ dependencies:
     sdk: flutter
   cloud_firestore: ^4.13.3
   firebase_auth: ^4.15.0
+  month_year_picker:
+  uuid: ^4.0.0
 
 dev_dependencies:
   mockito:

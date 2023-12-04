@@ -46,6 +46,14 @@ class ProjectView extends GetView<ProjectController> {
           ],
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 58),
+        child: FloatingActionButton(
+          backgroundColor: Colors.amber,
+          onPressed: () {},
+          child: Icon(Icons.add, color: Colors.white,),
+        ),
+      ),
     );
   }
 }
