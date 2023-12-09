@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
 
 class ProfileCertification extends StatelessWidget {
-  const ProfileCertification({super.key});
+  ProfileCertification({required this.email});
+  String email;
+  final ProfileController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -13,58 +16,69 @@ class ProfileCertification extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text(
-                'Licenses & Certifications',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
+          if (email == controller.email)
+            Row(
+              children: [
+                Text(
+                  'Licenses & Certifications',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.PROFILE_EDIT_LICENSES);
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.cyan[900],
                     ),
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.PROFILE_EDIT_LICENSES);
-                },
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                    color: Colors.cyan[900],
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           const SizedBox(
             height: 8,
           ),
           StreamBuilder(
-              stream: firestore.collection('users').doc('irfan@mail.com').collection('licences').snapshots(),
+              stream: firestore
+                  .collection('users')
+                  .doc(email)
+                  .collection('licences')
+                  .snapshots(),
               builder: (_, snapshot) {
-                final data = snapshot.data!.docs;
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
+                final data = snapshot.data!.docs;
                 if (snapshot.data!.docs.isEmpty) {
-                  return Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.only(bottom: 14),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.cyan[900]!, width: 1)
-                    ),
-                    child: Center(
-                      child: InkWell(
-                        onTap: () {
-                          Get.toNamed(Routes.PROFILE_EDIT_LICENSES);
-                        },
-                        child: Text('Add your licenses here!', style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.cyan[900],
-                        ),),
+                  return Visibility(
+                    visible: email == controller.email,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(16),
+                      margin: EdgeInsets.only(bottom: 14),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border:
+                              Border.all(color: Colors.cyan[900]!, width: 1)),
+                      child: Center(
+                        child: InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.PROFILE_EDIT_LICENSES);
+                          },
+                          child: Text(
+                            'Add your licenses here!',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.cyan[900],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   );

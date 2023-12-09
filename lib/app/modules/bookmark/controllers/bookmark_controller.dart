@@ -1,26 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookmarkController extends GetxController {
-  //TODO: Implement BookmarkController
+  
+  final firestore = FirebaseFirestore.instance;
+  ScrollController scrollController = ScrollController();
 
-  TabController tabController = TabController(length: 2, vsync: NavigatorState());
+  var email;
+  var isScolling = false.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    getLocalData();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future getLocalData() async {
+    final prefs = await SharedPreferences.getInstance();
+   email = prefs.getString('localUserEmail');
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

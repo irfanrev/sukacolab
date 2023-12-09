@@ -53,6 +53,7 @@ class RegisterController extends GetxController {
           'photoUrl': 'https://avatar.iran.liara.run/public/48',
           'createdAt': DateTime.now().toString(),
           'isVerified': false,
+          'resume': '',
         });
         Get.defaultDialog(
           title: 'Success',

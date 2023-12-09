@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
 
 class ProfileExperience extends StatelessWidget {
-  const ProfileExperience({super.key});
+  ProfileExperience({required this.email});
+  String email;
+  final ProfileController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +17,7 @@ class ProfileExperience extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
+          if (email == controller.email)
           Row(
             children: [
               Text(
@@ -42,18 +46,20 @@ class ProfileExperience extends StatelessWidget {
           StreamBuilder(
               stream: firestore
                   .collection('users')
-                  .doc('irfan@mail.com')
+                  .doc(email)
                   .collection('experiences')
                   .snapshots(),
               builder: (_, snapshot) {
-                final data = snapshot.data!.docs;
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
+                final data = snapshot.data!.docs;
                 if (snapshot.data!.docs.isEmpty) {
-                  return Container(
+                  return Visibility(
+                    visible: email == controller.email,
+                    child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.only(bottom: 14),
@@ -72,6 +78,7 @@ class ProfileExperience extends StatelessWidget {
                         ),),
                       ),
                     ),
+                  ),
                   );
                 }
                 return ListView.builder(

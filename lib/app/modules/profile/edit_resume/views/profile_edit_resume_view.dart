@@ -18,35 +18,82 @@ class ProfileEditResumeView extends GetView<ProfileEditResumeController> {
         child: Column(
           children: [
             Container(
-              child: TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.file_copy_rounded),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: 'File Name (For Display)',
+              width: double.infinity,
+              height: 100,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.cyan[600]!,
+                  width: 1,
                 ),
-                maxLength: 8,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Obx(
+                () => (controller.isFilePicked.value == false)
+                    ? Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.upload_file,
+                              color: Colors.cyan,
+                            ),
+                            const SizedBox(width: 12),
+                            InkWell(
+                              onTap: () {
+                                controller.pickFile();
+                              },
+                              child: Text(
+                                'Tap to Upload Resume',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.cyan[600]),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              'File Chosen',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green[600]),
+                            ),
+                          ],
+                        ),
+                      ),
               ),
             ),
+            const SizedBox(height: 20),
             Obx(
-              () => (controller.isFilePicked == false)
-                  ? Container(
+              () =>  Container(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          controller.pickFile();
-                        },
-                        child: const Text('Upload Resume'),
-                      ),
-                    )
-                  : Container(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
+                        style: ElevatedButton.styleFrom(
+                          primary: controller.isFilePicked.value == true
+                              ? Colors.cyan[600]
+                              : Colors.grey[400],
+                        ),
+                        onPressed: controller.isFilePicked.value == true ? () {
                           controller.addResumeFile();
-                        },
-                        child: const Text('Save Resume'),
+                        } : () {},
+                        child: controller.isLoading.value == true
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text('Upload Resume'),
                       ),
                     ),
             ),

@@ -2,19 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/bookmark/views/bookmark_view.dart';
 import 'package:getx_skeleton/app/modules/community/views/community_view.dart';
+import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/modules/profile/views/profile_view.dart';
 import 'package:getx_skeleton/app/modules/project/views/project_view.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../services/api_call_status.dart';
 import '../../../services/base_client.dart';
+import '../../bookmark/controllers/bookmark_controller.dart';
 
 class HomeController extends GetxController {
 
   RxInt selectedIndex = 0.obs;
 
+
   void changeTab(int index) {
     selectedIndex.value = index;
+    if (index == 3) {
+      Get.put(ProfileController());
+    } else if (index == 2) {
+      Get.put(BookmarkController());
+    }
+    refresh();
     update();
   }
 

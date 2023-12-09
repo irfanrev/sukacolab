@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -29,9 +30,54 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
           ],
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.share_outlined),
+          Obx(
+            () => Visibility(
+              visible: controller.isVerified.value == true,
+              child: IconButton(
+                onPressed: () {
+                  // list of registered join project
+                  final data = Get.arguments;
+                  final firestore = FirebaseFirestore.instance;
+                  Get.defaultDialog(
+                    title: 'Project Applications',
+                    content: Container(
+                      width: Get.width * 0.8,
+                      height: 400,
+                      child: StreamBuilder(
+                        stream: firestore
+                            .collection('projects')
+                            .doc(data['uuid'])
+                            .collection('applications')
+                            .snapshots(),
+                        builder: (_, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (_, index) {
+                              final itemData = snapshot.data!.docs;
+                              return ListTile(
+                                onTap: () => Get.toNamed(Routes.PROFILE, arguments: itemData[index]['email'].toString()),
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(itemData[index]['photoUrl']),
+                                ),
+                                title: Text(itemData[index]['name']),
+                                subtitle: Text(itemData[index]['status']),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.dashboard),
+              ),
+            ),
           )
         ],
       ),
@@ -223,7 +269,19 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.grey.shade200,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.addBookmark(
+                          data['uuid'], 
+                          data['jobdesc'],
+                          data['title'],
+                          data['project_name'],
+                          data['location'],
+                          data['published_at'].toString(),
+                          data['status'],
+                          data['imageUrl'],
+                          
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 3),
                         child: Text(
@@ -307,7 +365,6 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                                       ),
                                       onPressed: () {
                                         controller.joinProject(
-                                          'irfan@mail.com',
                                           dataProject['uuid'],
                                           dataProject['title'],
                                           dataProject['project_name'],

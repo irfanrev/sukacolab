@@ -39,6 +39,8 @@ dependencies:
   uuid: ^4.0.0
   firebase_storage: ^11.5.3
   file_picker: ^6.1.1
+  url_launcher: ^6.2.1
+  flutter_file_downloader: ^1.1.4
 
 dev_dependencies:
   mockito:
@@ -46,6 +48,7 @@ dev_dependencies:
   build_runner:  # generate dart files
   hive_generator: # generate hive files
   pub_semver: ^2.1.4 # helper to generate hive models
+  
 
   integration_test:
     sdk: flutter

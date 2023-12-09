@@ -1,21 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 
 class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({super.key});
+  ProfileHeader({required this.email});
+  String email;
+  final ProfileController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     final firestore = FirebaseFirestore.instance;
     return StreamBuilder(
-        stream: firestore.collection('users').doc('irfan@mail.com').snapshots(),
+        stream: firestore.collection('users').doc(email.toString()).snapshots(),
         builder: (_, snapshot) {
-          final data = snapshot.data!.data();
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+          final data = snapshot.data!.data();
           return Container(
             width: double.infinity,
             height: 180,
@@ -38,12 +42,17 @@ class ProfileHeader extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                Text(
-                  data['email'],
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
+                InkWell(
+                  onTap: () {
+                    controller.urlEmail(data['email']);
+                  },
+                  child: Text(
+                    data['email'],
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                  ),
                 ),
               ],
             ),

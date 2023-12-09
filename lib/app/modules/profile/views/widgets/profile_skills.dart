@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
 
 class ProfileSkills extends StatelessWidget {
-  const ProfileSkills({super.key});
+  ProfileSkills({required this.email});
+  String email;
+  final ProfileController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -13,28 +16,29 @@ class ProfileSkills extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text(
-                'Skills',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
+          if (email == controller.email)
+            Row(
+              children: [
+                Text(
+                  'Skills',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.PROFILE_EDIT_SKILL);
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.cyan[900],
                     ),
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.PROFILE_EDIT_SKILL);
-                },
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                    color: Colors.cyan[900],
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           const SizedBox(
             height: 8,
           ),
@@ -43,10 +47,15 @@ class ProfileSkills extends StatelessWidget {
               child: StreamBuilder(
                   stream: firestore
                       .collection('users')
-                      .doc('irfan@mail.com')
+                      .doc(email)
                       .collection('skills')
                       .snapshots(),
                   builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     final data = snapshot.data!.docs;
                     return Wrap(
                         spacing: 8,

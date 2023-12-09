@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +10,8 @@ class ProjectDetailController extends GetxController {
   var username;
   var userEmail;
   var imageUrl;
+  var isVerified = false.obs;
+  var isBookmarked = false.obs;
 
   @override
   void onInit() {
@@ -25,22 +28,71 @@ class ProjectDetailController extends GetxController {
     username = userData.data()!['name'];
     userEmail = userData.data()!['email'];
     imageUrl = userData.data()!['photoUrl'];
+    isVerified.value = userData.data()!['isVerified'];
   }
 
-  void addBookmark(String email, String projectName) async {
+  void addBookmark(
+      String projectUuid,
+      String jobdesc,
+      String title,
+      String projectName,
+      String location,
+      String publishedAt,
+      String status,
+      String imageUrl) async {
     isLoading.value = true;
-    await _firestore.collection('users').doc(email).update({
-      'bookmarks': FieldValue.arrayUnion([projectName])
-    });
-    isLoading.value = false;
+    try {
+      await _firestore
+          .collection('users')
+          .doc(userEmail)
+          .collection('bookmarks')
+          .doc(projectUuid)
+          .set({
+        'uuid': projectUuid,
+        'jobdesc': jobdesc,
+        'title': title,
+        'project_name': projectName,
+        'location': location,
+        'published_at': publishedAt,
+        'status': status,
+        'imageUrl': imageUrl,
+      });
+      Get.snackbar('Success', 'Project added to bookmark',
+          backgroundColor: Colors.green, colorText: Colors.white);
+      isBookmarked.value = true;
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar('Error', 'Something went wrong',
+          backgroundColor: Colors.deepOrange, colorText: Colors.white);
+      print(e);
+    }
   }
 
-  void joinProject(String email, String uuid, String title, String projectName,
+  void removeBookmark(String projectUuid) async {
+    isLoading.value = true;
+    try {
+      await _firestore.collection('users').doc(userEmail).update({
+        'bookmark': FieldValue.arrayRemove([projectUuid])
+      });
+      isBookmarked.value = false;
+      Get.snackbar('Success', 'Project removed from bookmark',
+          backgroundColor: Colors.green, colorText: Colors.white);
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      Get.snackbar('Error', 'Something went wrong',
+          backgroundColor: Colors.deepOrange, colorText: Colors.white);
+      print(e);
+    }
+  }
+
+  void joinProject(String uuid, String title, String projectName,
       String location, String published) async {
     isLoading.value = true;
     await _firestore
         .collection('users')
-        .doc(email)
+        .doc(userEmail)
         .collection('applications')
         .doc(uuid)
         .set(
@@ -59,7 +111,7 @@ class ProjectDetailController extends GetxController {
         .collection('projects')
         .doc(uuid)
         .collection('applications')
-        .doc(email)
+        .doc(userEmail)
         .set(
       {
         'email': userEmail,
@@ -71,7 +123,4 @@ class ProjectDetailController extends GetxController {
     );
     isLoading.value = false;
   }
-
-
-  
 }

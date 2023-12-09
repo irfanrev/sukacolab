@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
 
 class ProfileSummary extends StatelessWidget {
-  ProfileSummary({super.key});
+  ProfileSummary({required this.email});
+  String email;
+  final ProfileController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +25,31 @@ class ProfileSummary extends StatelessWidget {
                     ),
               ),
               const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Get.toNamed(Routes.PROFILE_EDIT_PROFILE);
-                },
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                    color: Colors.cyan[900],
+              if (email == controller.email)
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.PROFILE_EDIT_PROFILE);
+                  },
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.cyan[900],
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           const SizedBox(
             height: 8,
           ),
           StreamBuilder(
-              stream: firestore.collection('users').doc('irfan@mail.com').snapshots(),
+              stream: firestore.collection('users').doc(email).snapshots(),
               builder: (_, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
                 final data = snapshot.data!.data();
                 if (data!['summary'] == '') {
                   return Container(
@@ -48,18 +57,20 @@ class ProfileSummary extends StatelessWidget {
                     padding: EdgeInsets.all(16),
                     margin: EdgeInsets.only(bottom: 14),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.cyan[900]!, width: 1)
-                    ),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.cyan[900]!, width: 1)),
                     child: Center(
                       child: InkWell(
                         onTap: () {
                           Get.toNamed(Routes.PROFILE_EDIT_EXPERIENCE);
                         },
-                        child: Text('Add your summary here!', style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.cyan[900],
-                        ),),
+                        child: Text(
+                          'Add your summary here!',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.cyan[900],
+                          ),
+                        ),
                       ),
                     ),
                   );
