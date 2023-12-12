@@ -20,7 +20,9 @@ abstract class Routes {
   static const PROFILE_EDIT_SKILL = _Paths.PROFILE + _Paths.PROFILE_EDIT_SKILL;
   static const PROFILE_EDIT_RESUME =
       _Paths.PROFILE + _Paths.PROFILE_EDIT_RESUME;
-  static const PROJECT_PROJECT_APPLY = _Paths.PROJECT + _Paths.PROJECT_PROJECT_APPLY;
+  static const PROJECT_PROJECT_APPLY =
+      _Paths.PROJECT + _Paths.PROJECT_PROJECT_APPLY;
+  static const PURPOSE_PROJECT = _Paths.PURPOSE_PROJECT;
 }
 
 abstract class _Paths {
@@ -39,4 +41,5 @@ abstract class _Paths {
   static const PROFILE_EDIT_SKILL = '/edit-skill';
   static const PROFILE_EDIT_RESUME = '/edit-resume';
   static const PROJECT_PROJECT_APPLY = '/project-apply';
+  static const PURPOSE_PROJECT = '/purpose-project';
 }

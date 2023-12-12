@@ -26,6 +26,8 @@ import '../modules/project/project_apply/views/project_project_apply_view.dart';
 import '../modules/project/views/project_view.dart';
 import '../modules/project_detail/bindings/project_detail_binding.dart';
 import '../modules/project_detail/views/project_detail_view.dart';
+import '../modules/purpose_project/bindings/purpose_project_binding.dart';
+import '../modules/purpose_project/views/purpose_project_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 
@@ -110,6 +112,11 @@ class AppPages {
       name: _Paths.COMMUNITY,
       page: () => const CommunityView(),
       binding: CommunityBinding(),
+    ),
+    GetPage(
+      name: _Paths.PURPOSE_PROJECT,
+      page: () => const PurposeProjectView(),
+      binding: PurposeProjectBinding(),
     ),
   ];
 }
