@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/bookmark/views/bookmark_view.dart';
+import 'package:getx_skeleton/app/modules/community/controllers/community_controller.dart';
 import 'package:getx_skeleton/app/modules/community/views/community_view.dart';
 import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/modules/profile/views/profile_view.dart';
+import 'package:getx_skeleton/app/modules/project/controllers/project_controller.dart';
 import 'package:getx_skeleton/app/modules/project/views/project_view.dart';
 
 import '../../../../utils/constants.dart';
@@ -22,6 +24,10 @@ class HomeController extends GetxController {
       Get.put(ProfileController());
     } else if (index == 2) {
       Get.put(BookmarkController());
+    } else if (index == 1) {
+      Get.put(CommunityController());
+    } else if (index == 0) {
+      Get.put(ProjectController());
     }
     refresh();
     update();

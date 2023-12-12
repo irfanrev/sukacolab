@@ -33,6 +33,11 @@ class BookmarkView extends GetView<BookmarkController> {
                       child: CircularProgressIndicator(),
                     );
                   }
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Center(
+                      child: Text('No Bookmark Found'),
+                    );
+                  }
                   return ListView.builder(
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {

@@ -1,23 +1,21 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CommunityController extends GetxController {
-  //TODO: Implement CommunityController
+  
+  var email;
+  var isVerify = false.obs;
+  var isScolling = false.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
+    getLocalData();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void getLocalData() async {
+    final prefs = await SharedPreferences.getInstance();
+   email = prefs.getString('localUserEmail');
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

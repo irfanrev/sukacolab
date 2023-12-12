@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/add_project/bindings/add_project_binding.dart';
+import '../modules/add_project/views/add_project_view.dart';
 import '../modules/bookmark/bindings/bookmark_binding.dart';
 import '../modules/bookmark/views/bookmark_view.dart';
 import '../modules/community/bindings/community_binding.dart';
@@ -117,6 +119,11 @@ class AppPages {
       name: _Paths.PURPOSE_PROJECT,
       page: () => const PurposeProjectView(),
       binding: PurposeProjectBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_PROJECT,
+      page: () => const AddProjectView(),
+      binding: AddProjectBinding(),
     ),
   ];
 }

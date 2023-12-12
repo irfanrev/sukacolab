@@ -20,38 +20,41 @@ class ProjectView extends GetView<ProjectController> {
           children: [
             const ProjectHeaderWidget(),
             const BannerProject(),
-            StreamBuilder(
-              stream: firestore.collection('projects').snapshots(),
-              builder: (_, snapshot) {
-                if (snapshot.hasData) {
-                  final data = snapshot.data!.docs;
-                  return ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      return ProjectListing(
-                        snap: data[index].data(),
-                      );
-                    },
-                  );
-                } else {
-                  return Center(
-                    child: Text('No Data Found'),
-                  );
-                }
-              },
+            Obx(
+              () => StreamBuilder(
+                stream: controller.searchResult.isEmpty
+                    ? firestore.collection('projects').snapshots()
+                    : firestore
+                        .collection("projects")
+                        .where("title", isGreaterThan: controller.searchResult.value)
+                        .orderBy("title", descending: false)
+                        .snapshots(),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data!.docs;
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return ProjectListing(
+                          snap: data[index].data(),
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: Text('No Data Found'),
+                    );
+                  }
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 50,
             ),
           ],
-        ),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 58),
-        child: FloatingActionButton(
-          backgroundColor: Colors.amber,
-          onPressed: () {},
-          child: Icon(Icons.add, color: Colors.white,),
         ),
       ),
     );

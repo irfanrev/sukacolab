@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:getx_skeleton/app/modules/project/controllers/project_controller.dart';
 
 import '../../../../routes/app_pages.dart';
 
@@ -10,6 +12,8 @@ class ProjectHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final firestore = FirebaseFirestore.instance;
+    final controller = Get.find<ProjectController>();
     return Container(
       width: double.infinity,
       height: 180,
@@ -22,21 +26,34 @@ class ProjectHeaderWidget extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            Row(
-              children: [
-                const CircleAvatar(),
-                const SizedBox(
-                  width: 12,
-                ),
-                Text(
-                  'Good Morning, Irfan',
-                  style: theme.textTheme.bodyLarge!.copyWith(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                )
-              ],
-            ),
+            StreamBuilder(
+                stream: firestore
+                    .collection('users')
+                    .doc(controller.email)
+                    .snapshots(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox();
+                  }
+                  final data = snapshot.data!.data();
+                  return Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(data!['photoUrl']!),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Text(
+                        'Hey, ${data!['name']}',
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      )
+                    ],
+                  ).animate().fade().slide();
+                }),
             const SizedBox(
               height: 16,
             ),
@@ -50,11 +67,14 @@ class ProjectHeaderWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.white,
                     ),
-                    child: const Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Start with joining project here!',
-                          border: InputBorder.none,
+                    child: Expanded(
+                      child: Center(
+                        child: TextField(
+                          controller: controller.search,
+                          decoration: const InputDecoration(
+                            hintText: 'Start with joining project here!',
+                            border: InputBorder.none,
+                          ),
                         ),
                       ),
                     ),
@@ -63,15 +83,18 @@ class ProjectHeaderWidget extends StatelessWidget {
                 const SizedBox(
                   width: 8,
                 ),
-                Container(
-                  height: 52,
-                  width: 52,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.amber),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.white,
+                InkWell(
+                  onTap: () => controller.searchProject(),
+                  child: Container(
+                    height: 52,
+                    width: 52,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.amber),
+                    child: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
