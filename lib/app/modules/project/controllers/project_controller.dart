@@ -10,6 +10,7 @@ class ProjectController extends GetxController {
   TextEditingController search = TextEditingController();
   var searchResult = ''.obs;
 
+  var isBookmark = false.obs;
   var email = ''.obs;
   var isVerify = false.obs;
   var isScolling = false.obs;
@@ -33,10 +34,12 @@ class ProjectController extends GetxController {
 
   void checkUser() async {
     try {
-      final dataUser = await firestore.collection('users').doc(email.value).get();
+      final dataUser =
+          await firestore.collection('users').doc(email.value).get();
       isVerify.value = dataUser.data()!['isVerified'];
     } catch (e) {
       print(e);
     }
   }
+
 }
