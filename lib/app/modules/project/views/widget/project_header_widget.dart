@@ -13,96 +13,115 @@ class ProjectHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final firestore = FirebaseFirestore.instance;
-    final controller = Get.find<ProjectController>();
-    return Container(
-      width: double.infinity,
-      height: 180,
-      color: Colors.cyan[600],
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 24,
-            ),
-            StreamBuilder(
-                stream: firestore
-                    .collection('users')
-                    .doc(controller.email)
-                    .snapshots(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox();
-                  }
-                  final data = snapshot.data!.data();
-                  return Row(
+    return GetBuilder<ProjectController>(
+        init: ProjectController(),
+        builder: (controller) {
+          return Container(
+            width: double.infinity,
+            height: 180,
+            color: Colors.cyan[600],
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Obx(
+                    () => StreamBuilder(
+                        stream: firestore
+                            .collection('users')
+                            .doc(controller.email.value)
+                            .snapshots(),
+                        builder: (_, snapshot) {
+                          if (snapshot.hasData &&
+                              snapshot.data!.data() != null) {
+                            final data = snapshot.data!.data()!;
+                            return Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.PROFILE, arguments: data['email']);
+                                  },
+                                  child: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(data['photoUrl'] as String),
+                                ),
+                                ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Text(
+                                  'Hey, ${data['name']}',
+                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                )
+                              ],
+                            ).animate().fade().slide();
+                          } else {
+                            return SizedBox();
+                          }
+                        }),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(data!['photoUrl']!),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Text(
-                        'Hey, ${data!['name']}',
-                        style: theme.textTheme.bodyLarge!.copyWith(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      )
-                    ],
-                  ).animate().fade().slide();
-                }),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    height: 52,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
-                    child: Expanded(
-                      child: Center(
-                        child: TextField(
-                          controller: controller.search,
-                          decoration: const InputDecoration(
-                            hintText: 'Start with joining project here!',
-                            border: InputBorder.none,
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          height: 52,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: Expanded(
+                            child: Center(
+                              child: TextField(
+                                controller: controller.search,
+                                decoration: const InputDecoration(
+                                  hintText: 'Search based on title',
+                                  border: InputBorder.none,
+                                ),
+                                textCapitalization: TextCapitalization.sentences,
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.search,
+                                onSubmitted: (value) {
+                                  controller.searchProject();
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      InkWell(
+                        onTap: () => controller.searchProject(),
+                        child: Container(
+                          height: 52,
+                          width: 52,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.amber),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                InkWell(
-                  onTap: () => controller.searchProject(),
-                  child: Container(
-                    height: 52,
-                    width: 52,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.amber),
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
 
@@ -259,6 +278,90 @@ class ProjectListing extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ProjectContent extends StatelessWidget {
+  const ProjectContent({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final firestore = FirebaseFirestore.instance;
+    return GetBuilder<ProjectController>(
+        init: ProjectController(),
+        builder: (controller) {
+          return StreamBuilder(
+            stream: firestore.collection('projects').snapshots(),
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!.docs;
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return ProjectListing(
+                      snap: data[index].data(),
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: Text('No Data Found'),
+                );
+              }
+            },
+          );
+        });
+  }
+}
+
+class ProjectSearch extends StatelessWidget {
+  const ProjectSearch({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<ProjectController>();
+    final firestore = FirebaseFirestore.instance;
+    var searchResult = Get.arguments;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.cyan[600],
+        centerTitle: true,
+        title: Text('Search Result'),
+      ),
+      body: SizedBox.expand(
+          child: StreamBuilder(
+            stream: firestore
+                .collection('projects')
+                .where('title', isGreaterThanOrEqualTo: searchResult)
+                .snapshots(),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasData) {
+                final data = snapshot.data!.docs;
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return ProjectListing(
+                      snap: data[index].data(),
+                    );
+                  },
+                );
+              } else {
+                return Center(
+                  child: Text('No Data Found'),
+                );
+              }
+            },
+          ),
+        ),
     );
   }
 }

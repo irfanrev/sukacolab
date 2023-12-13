@@ -50,7 +50,7 @@ class CommunityView extends GetView<CommunityController> {
                             ),),
                             subtitle: Text(data[index].data()['project_name']),
                             trailing: Text(data[index].data()['status'], style: TextStyle(
-                              color: data[index].data()['status'] == 'Approved' ? Colors.green : data[index].data()['status'] == 'Rejected' ? Colors.red : data[index].data()['status'] == 'Submited' ? Colors.cyan : Colors.amber,
+                              color: data[index].data()['status'] == 'Accepted' ? Colors.green : data[index].data()['status'] == 'Rejected' ? Colors.red : data[index].data()['status'] == 'Submited' ? Colors.cyan : Colors.amber,
                             ),),
                           ),
                         );
