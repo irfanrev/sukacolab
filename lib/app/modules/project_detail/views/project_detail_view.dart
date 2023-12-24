@@ -268,7 +268,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                   ),
                   Expanded(
                     child: Obx(
-                      () => controller.isBookmarked.value == true
+                      () => controller.isBookmarked.value
                           ? ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.grey.shade200,

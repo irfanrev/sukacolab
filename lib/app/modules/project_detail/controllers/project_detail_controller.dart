@@ -27,6 +27,7 @@ class ProjectDetailController extends GetxController {
         .collection('users')
         .doc(prefs.getString('localUserEmail'))
         .get();
+    print(Get.arguments['uuid']);
     username = userData.data()!['name'];
     userEmail = userData.data()!['email'];
     imageUrl = userData.data()!['photoUrl'];
@@ -34,13 +35,9 @@ class ProjectDetailController extends GetxController {
   }
 
   void loadBookmark(String projectUuid) async {
-    final bookmarkData = await _firestore
-        .collection('users')
-        .doc(userEmail)
-        .collection('bookmarks')
-        .doc(projectUuid)
-        .get();
-    if (bookmarkData.exists) {
+     final prefs = await SharedPreferences.getInstance();
+     prefs.getString(projectUuid);
+    if (prefs.getString(projectUuid) == projectUuid) {
       isBookmarked.value = true;
     } else {
       isBookmarked.value = false;
@@ -58,6 +55,7 @@ class ProjectDetailController extends GetxController {
       String imageUrl) async {
     isLoading.value = true;
     try {
+      final prefs = await SharedPreferences.getInstance();
       await _firestore
           .collection('users')
           .doc(userEmail)
@@ -73,6 +71,7 @@ class ProjectDetailController extends GetxController {
         'status': status,
         'imageUrl': imageUrl,
       });
+      prefs.setString(projectUuid, projectUuid);
       Get.snackbar('Success', 'Project added to bookmark',
           backgroundColor: Colors.green, colorText: Colors.white);
       isBookmarked.value = true;
@@ -89,6 +88,8 @@ class ProjectDetailController extends GetxController {
     isLoading.value = true;
     try {
       await _firestore.collection('users').doc(userEmail).collection('bookmarks').doc(projectUuid).delete();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove(projectUuid);
       isBookmarked.value = false;
       Get.snackbar('Success', 'Project removed from bookmark',
           backgroundColor: Colors.green, colorText: Colors.white);
