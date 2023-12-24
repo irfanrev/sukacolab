@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/components/custom_button.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../controllers/profile_edit_profile_controller.dart';
 
@@ -33,9 +36,42 @@ class ProfileEditProfileView extends GetView<ProfileEditProfileController> {
           return Column(
             children: [
               Obx(
-                () => CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(controller.photoUrl.value),
+                () => InkWell(
+                  onTap: () {
+                    Get.defaultDialog(
+                        title: 'Choose Image',
+                        content: Column(
+                          children: [
+                            ListTile(
+                              onTap: () {
+                                controller.getImage(ImageSource.camera);
+                                Get.back();
+                              },
+                              leading: Icon(Icons.camera_alt),
+                              title: Text('Camera'),
+                            ),
+                            ListTile(
+                              onTap: () {
+                                controller.getImage(ImageSource.gallery);
+                                Get.back();
+                              },
+                              leading: Icon(Icons.photo),
+                              title: Text('Gallery'),
+                            ),
+                          ],
+                        ));
+                  },
+                  child: controller.isImagePicked.value
+                      ? CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              FileImage(File(controller.imageFile!.path)),
+                        )
+                      : CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              NetworkImage(controller.photoUrl.value),
+                        ),
                 ),
               ),
               const SizedBox(
