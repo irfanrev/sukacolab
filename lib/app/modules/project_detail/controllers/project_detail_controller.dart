@@ -10,12 +10,14 @@ class ProjectDetailController extends GetxController {
   var username;
   var userEmail;
   var imageUrl;
+  var uuidProjectDetail;
   var isVerified = false.obs;
   var isBookmarked = false.obs;
 
   @override
   void onInit() {
     getUserData();
+    loadBookmark(Get.arguments['uuid']);
     super.onInit();
   }
 
@@ -29,6 +31,20 @@ class ProjectDetailController extends GetxController {
     userEmail = userData.data()!['email'];
     imageUrl = userData.data()!['photoUrl'];
     isVerified.value = userData.data()!['isVerified'];
+  }
+
+  void loadBookmark(String projectUuid) async {
+    final bookmarkData = await _firestore
+        .collection('users')
+        .doc(userEmail)
+        .collection('bookmarks')
+        .doc(projectUuid)
+        .get();
+    if (bookmarkData.exists) {
+      isBookmarked.value = true;
+    } else {
+      isBookmarked.value = false;
+    }
   }
 
   void addBookmark(
@@ -72,9 +88,7 @@ class ProjectDetailController extends GetxController {
   void removeBookmark(String projectUuid) async {
     isLoading.value = true;
     try {
-      await _firestore.collection('users').doc(userEmail).update({
-        'bookmark': FieldValue.arrayRemove([projectUuid])
-      });
+      await _firestore.collection('users').doc(userEmail).collection('bookmarks').doc(projectUuid).delete();
       isBookmarked.value = false;
       Get.snackbar('Success', 'Project removed from bookmark',
           backgroundColor: Colors.green, colorText: Colors.white);

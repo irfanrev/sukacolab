@@ -60,7 +60,9 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                             itemBuilder: (_, index) {
                               final itemData = snapshot.data!.docs;
                               return ListTile(
-                                onTap: () => Get.toNamed(Routes.PROFILE, arguments: itemData[index]['email'].toString()),
+                                onTap: () => Get.toNamed(Routes.PROFILE,
+                                    arguments:
+                                        itemData[index]['email'].toString()),
                                 leading: CircleAvatar(
                                   backgroundImage:
                                       NetworkImage(itemData[index]['photoUrl']),
@@ -265,32 +267,53 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                     width: 12,
                   ),
                   Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.grey.shade200,
-                      ),
-                      onPressed: () {
-                        controller.addBookmark(
-                          data['uuid'], 
-                          data['jobdesc'],
-                          data['title'],
-                          data['project_name'],
-                          data['location'],
-                          data['published_at'].toString(),
-                          data['status'],
-                          data['imageUrl'],
-                          
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Text(
-                          'Bookmark',
-                          style: TextStyle(
-                            color: Colors.cyan[900],
-                          ),
-                        ),
-                      ),
+                    child: Obx(
+                      () => controller.isBookmarked.value == true
+                          ? ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey.shade200,
+                              ),
+                              onPressed: () {
+                                controller.removeBookmark(data['uuid']);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3),
+                                child: Text(
+                                  'Unbookmark',
+                                  style: TextStyle(
+                                    color: Colors.deepOrange[900],
+                                  ),
+                                ),
+                              ),
+                            )
+                          : ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.grey.shade200,
+                              ),
+                              onPressed: () {
+                                controller.addBookmark(
+                                  data['uuid'],
+                                  data['jobdesc'],
+                                  data['title'],
+                                  data['project_name'],
+                                  data['location'],
+                                  data['published_at'].toString(),
+                                  data['status'],
+                                  data['imageUrl'],
+                                );
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3),
+                                child: Text(
+                                  'Bookmark',
+                                  style: TextStyle(
+                                    color: Colors.cyan[900],
+                                  ),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(

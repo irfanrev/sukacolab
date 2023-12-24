@@ -27,7 +27,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -59,6 +59,10 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 
 flutter {
@@ -67,4 +71,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    //for local notif
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.9'
+    implementation 'androidx.window:window:1.1.0'
+    implementation 'androidx.window:window-java:1.1.0'
 }
