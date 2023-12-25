@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/project_detail/views/widgets/project_detail_appbar.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
+import 'package:intl/intl.dart';
 
 import '../controllers/project_detail_controller.dart';
 
@@ -12,7 +13,9 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
   @override
   Widget build(BuildContext context) {
     final data = Get.arguments;
-
+    final publishedAt = data['published_at'].toDate();
+    final formattedDate =
+        DateFormat.yMMMMd().format(publishedAt); // Format: October 1, 2023
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.cyan[600],
@@ -141,7 +144,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                             ),
                           ),
                           Text(
-                            '1 days ago',
+                            formattedDate,
                             style: TextStyle(
                               color: Colors.grey.shade400,
                             ),

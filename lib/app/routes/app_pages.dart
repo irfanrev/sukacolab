@@ -10,6 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/onboarding/bindings/onboarding_binding.dart';
+import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/edit_experience/bindings/profile_edit_experience_binding.dart';
 import '../modules/profile/edit_experience/views/profile_edit_experience_view.dart';
@@ -124,6 +126,11 @@ class AppPages {
       name: _Paths.ADD_PROJECT,
       page: () => const AddProjectView(),
       binding: AddProjectBinding(),
+    ),
+    GetPage(
+      name: _Paths.ONBOARDING,
+      page: () => OnboardingView(),
+      binding: OnboardingBinding(),
     ),
   ];
 }

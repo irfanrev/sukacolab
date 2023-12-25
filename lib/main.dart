@@ -21,11 +21,11 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
 
-  // initialize local db (hive) and register our custom adapters
-  await MyHive.init(registerAdapters: (hive) {
-    hive.registerAdapter(UserModelAdapter());
-    //myHive.registerAdapter(OtherAdapter());
-  });
+  // // initialize local db (hive) and register our custom adapters
+  // await MyHive.init(registerAdapters: (hive) {
+  //   hive.registerAdapter(UserModelAdapter());
+  //   //myHive.registerAdapter(OtherAdapter());
+  // });
 
   // init shared preference
   await MySharedPref.init();
@@ -64,9 +64,12 @@ Future<void> main() async {
               ),
             );
           },
-          initialRoute: (prefs.getString('localUserEmail') == null
-              ? Routes.LOGIN
-              : Routes.HOME), // first screen to show when app is running
+          initialRoute: (prefs.getBool('isFirstTime') == null)
+              ? Routes.ONBOARDING
+              : (prefs.getString('localUserEmail') == null
+                  ? Routes.LOGIN
+                  : Routes.HOME), // first screen to show when app is running
+          //initialRoute: Routes.ONBOARDING,
           getPages: AppPages.routes, // app screens
           locale: MySharedPref.getCurrentLocal(), // app language
           translations: LocalizationService

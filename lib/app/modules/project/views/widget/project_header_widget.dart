@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/project/controllers/project_controller.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../routes/app_pages.dart';
 
@@ -42,12 +44,13 @@ class ProjectHeaderWidget extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Get.toNamed(Routes.PROFILE, arguments: data['email']);
+                                    Get.toNamed(Routes.PROFILE,
+                                        arguments: data['email']);
                                   },
                                   child: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(data['photoUrl'] as String),
-                                ),
+                                    backgroundImage: NetworkImage(
+                                        data['photoUrl'] as String),
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 12,
@@ -87,7 +90,8 @@ class ProjectHeaderWidget extends StatelessWidget {
                                   hintText: 'Search based on title',
                                   border: InputBorder.none,
                                 ),
-                                textCapitalization: TextCapitalization.sentences,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                                 keyboardType: TextInputType.text,
                                 textInputAction: TextInputAction.search,
                                 onSubmitted: (value) {
@@ -202,6 +206,17 @@ class ProjectListing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    //timestamp to String
+    // final publishedAt = DateTime.parse(snap['published_at'].toDate().toString())
+    //     .toString()
+    //     .substring(0, 10);
+
+// ...
+
+    final publishedAt = snap['published_at'].toDate();
+    final formattedDate =
+        DateFormat.yMMMMd().format(publishedAt); // Format: October 1, 2023
+
     return InkWell(
       onTap: () {
         Get.toNamed(Routes.PROJECT_DETAIL, arguments: snap);
@@ -248,8 +263,8 @@ class ProjectListing extends StatelessWidget {
                       IconButton(
                           onPressed: () {},
                           icon: Icon(
-                            Icons.bookmark_outline,
-                            size: 32,
+                            Icons.code_rounded,
+                            size: 28,
                             color: Colors.grey[600],
                           ))
                     ],
@@ -261,7 +276,7 @@ class ProjectListing extends StatelessWidget {
                   style: theme.textTheme.bodyLarge!.copyWith(
                     color: Colors.cyan[900],
                   )),
-              Text('6 days ago',
+              Text(formattedDate,
                   style: theme.textTheme.bodyMedium!.copyWith(
                     color: Colors.grey,
                   )),
@@ -332,36 +347,36 @@ class ProjectSearch extends StatelessWidget {
         title: Text('Search Result'),
       ),
       body: SizedBox.expand(
-          child: StreamBuilder(
-            stream: firestore
-                .collection('projects')
-                .where('title', isGreaterThanOrEqualTo: searchResult)
-                .snapshots(),
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.hasData) {
-                final data = snapshot.data!.docs;
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return ProjectListing(
-                      snap: data[index].data(),
-                    );
-                  },
-                );
-              } else {
-                return Center(
-                  child: Text('No Data Found'),
-                );
-              }
-            },
-          ),
+        child: StreamBuilder(
+          stream: firestore
+              .collection('projects')
+              .where('title', isGreaterThanOrEqualTo: searchResult)
+              .snapshots(),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData) {
+              final data = snapshot.data!.docs;
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return ProjectListing(
+                    snap: data[index].data(),
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: Text('No Data Found'),
+              );
+            }
+          },
         ),
+      ),
     );
   }
 }
