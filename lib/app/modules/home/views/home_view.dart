@@ -11,6 +11,7 @@ import '../controllers/home_controller.dart';
 import 'widgets/data_grid.dart';
 import 'widgets/employees_list.dart';
 import 'widgets/header.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -33,19 +34,19 @@ class HomeView extends GetView<HomeController> {
           // showActiveButtonText: false,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(EvaIcons.homeOutline),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_search_rounded),
+              icon: Icon(Icons.checklist_outlined),
               label: 'User',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark),
+              icon: Icon(EvaIcons.bookmarkOutline),
               label: 'Bookmart',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(EvaIcons.personOutline),
               label: 'Profile',
             ),
           ],

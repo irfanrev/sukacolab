@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -153,9 +154,9 @@ class BannerProject extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
-                Icons.work_outline_rounded,
+                EvaIcons.bulbOutline,
                 size: 52,
-                color: Colors.white,
+                color: Colors.amber,
               ),
             ),
             SizedBox(
@@ -263,7 +264,7 @@ class ProjectListing extends StatelessWidget {
                       IconButton(
                           onPressed: () {},
                           icon: Icon(
-                            Icons.code_rounded,
+                            EvaIcons.code,
                             size: 28,
                             color: Colors.grey[600],
                           ))
