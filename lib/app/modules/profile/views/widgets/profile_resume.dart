@@ -130,7 +130,7 @@ class ProfileResume extends StatelessWidget {
                         controller.downloadResume(data['resume']);
                       },
                       child: Text(
-                        'Download CV',
+                        'Show Resume',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.cyan[600],

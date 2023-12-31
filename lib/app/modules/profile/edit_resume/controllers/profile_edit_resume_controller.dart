@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +12,7 @@ class ProfileEditResumeController extends GetxController {
   final firestore = FirebaseFirestore.instance;
   TextEditingController title = TextEditingController();
 
-  final storage = FirebaseStorage.instance;
+  final storage = firebase_storage.FirebaseStorage.instance;
 
   File? resumeFile;
   var isFilePicked = false.obs;
@@ -31,13 +31,45 @@ class ProfileEditResumeController extends GetxController {
     email = prefs.getString('localUserEmail');
   }
 
+  // void addResumeFile() async {
+  //   isLoading.value = true;
+  //   try {
+  //     final upload = await storage.ref('resume-$email.pdf').putFile(resumeFile!);
+  //     await firestore.collection('users').doc(email).update({
+  //       'resume': await upload.ref.getDownloadURL(),
+  //     });
+  //     Get.snackbar('Success', 'Resume Added Successfully',
+  //         backgroundColor: Colors.green, colorText: Colors.white);
+  //     isLoading.value = false;
+  //   } catch (e) {
+  //     Get.snackbar('Error', 'Something went wrong',
+  //         backgroundColor: Colors.deepOrange, colorText: Colors.white);
+  //     isLoading.value = false;
+  //     print(e);
+
+  //   }
+  // }
+
   void addResumeFile() async {
     isLoading.value = true;
     try {
-      final upload = await storage.ref('resume-irfan@mail.com.pdf').putFile(resumeFile!);
-      await firestore.collection('users').doc('irfan@mail.com').update({
-        'resume': await upload.ref.getDownloadURL(),
+      final fileExtension = resumeFile!.path.split('.').last.toLowerCase();
+      if (fileExtension != 'pdf') {
+        Get.snackbar('Error', 'File is not a PDF',
+            backgroundColor: Colors.deepOrange, colorText: Colors.white);
+        isLoading.value = false;
+        return;
+      }
+
+      final upload = await storage.ref('resume/resume-$email.pdf').putFile(resumeFile!,
+          firebase_storage.SettableMetadata(contentType: 'application/pdf'));
+
+      final downloadURL = await upload.ref.getDownloadURL();
+
+      await firestore.collection('users').doc(email).update({
+        'resume': downloadURL,
       });
+
       Get.snackbar('Success', 'Resume Added Successfully',
           backgroundColor: Colors.green, colorText: Colors.white);
       isLoading.value = false;
@@ -46,7 +78,6 @@ class ProfileEditResumeController extends GetxController {
           backgroundColor: Colors.deepOrange, colorText: Colors.white);
       isLoading.value = false;
       print(e);
-
     }
   }
 

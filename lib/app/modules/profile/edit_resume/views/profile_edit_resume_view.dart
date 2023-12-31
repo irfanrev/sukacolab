@@ -10,8 +10,15 @@ class ProfileEditResumeView extends GetView<ProfileEditResumeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ProfileEditResumeView'),
+        title: const Text('Update Your Resume', style: TextStyle(color: Colors.black)),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.close, color: Colors.black),
+        )
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
