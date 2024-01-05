@@ -66,4 +66,15 @@ class ProfileController extends GetxController {
           backgroundColor: Colors.deepOrange, colorText: Colors.white);
     }
   }
+
+  void urlResume(String pdf) async {
+    final Uri params = Uri.parse(pdf);
+    var url = params.toString();
+    if (await canLaunch(url)) {
+      await launch(url, enableJavaScript: true);
+    } else {
+      Get.snackbar('Error', 'Could not launch $url',
+          backgroundColor: Colors.deepOrange, colorText: Colors.white);
+    }
+  }
 }

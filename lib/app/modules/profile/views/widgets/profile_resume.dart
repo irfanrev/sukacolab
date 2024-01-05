@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
+import 'package:getx_skeleton/app/modules/profile/views/resume_view.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
 
 class ProfileResume extends StatelessWidget {
@@ -127,7 +128,9 @@ class ProfileResume extends StatelessWidget {
                   child: Center(
                     child: InkWell(
                       onTap: () {
-                        controller.downloadResume(data['resume']);
+                        Get.to(ResumeView(
+                          pdfUrl: data['resume'],
+                        ));
                       },
                       child: Text(
                         'Show Resume',
