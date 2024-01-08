@@ -16,7 +16,6 @@ class ProfileCertification extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          if (email == controller.email)
             Row(
               children: [
                 Text(
@@ -26,6 +25,7 @@ class ProfileCertification extends StatelessWidget {
                       ),
                 ),
                 const Spacer(),
+          if (email == controller.email)
                 TextButton(
                   onPressed: () {
                     Get.toNamed(Routes.PROFILE_EDIT_LICENSES);
