@@ -48,6 +48,7 @@ dependencies:
   eva_icons_flutter: ^3.1.0
   flutter_native_splash:
   flutter_inappwebview: ^5.8.0
+  syncfusion_flutter_pdfviewer: ^24.1.44
 
 dev_dependencies:
   mockito:
