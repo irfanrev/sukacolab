@@ -37,4 +37,12 @@ class ProfileEditSkillController extends GetxController {
       title.clear();
     }
   }
+
+  void deleteSkill() {
+    try {
+      
+    } catch (e) {
+      
+    }
+  }
 }

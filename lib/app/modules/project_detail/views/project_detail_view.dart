@@ -301,7 +301,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                                   data['title'],
                                   data['project_name'],
                                   data['location'],
-                                  data['published_at'].toString(),
+                                  data['published_at'],
                                   data['status'],
                                   data['imageUrl'],
                                 );

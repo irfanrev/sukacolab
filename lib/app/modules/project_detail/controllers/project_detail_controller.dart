@@ -12,7 +12,7 @@ class ProjectDetailController extends GetxController {
   var imageUrl;
   var uuidProjectDetail;
   var isVerified = false.obs;
-  var isBookmarked = false.obs;
+  RxBool isBookmarked = false.obs;
 
   @override
   void onInit() {
@@ -36,12 +36,17 @@ class ProjectDetailController extends GetxController {
 
   void loadBookmark(String projectUuid) async {
      final prefs = await SharedPreferences.getInstance();
-     prefs.getString(projectUuid);
-    if (prefs.getString(projectUuid) == projectUuid) {
+     final proUid = prefs.getString(projectUuid);
+     print('projectUuid: $projectUuid');
+      print('Local uuid: $proUid');
+    if (proUid == projectUuid) {
       isBookmarked.value = true;
+      update();
     } else {
       isBookmarked.value = false;
+      update();
     }
+    print('isBookmarked: ${isBookmarked.value}');
   }
 
   void addBookmark(
@@ -50,7 +55,7 @@ class ProjectDetailController extends GetxController {
       String title,
       String projectName,
       String location,
-      String publishedAt,
+      Timestamp publishedAt,
       String status,
       String imageUrl) async {
     isLoading.value = true;
@@ -72,6 +77,7 @@ class ProjectDetailController extends GetxController {
         'imageUrl': imageUrl,
       });
       prefs.setString(projectUuid, projectUuid);
+      print('projectUuid: $projectUuid');
       Get.snackbar('Success', 'Project added to bookmark',
           backgroundColor: Colors.green, colorText: Colors.white);
       isBookmarked.value = true;
