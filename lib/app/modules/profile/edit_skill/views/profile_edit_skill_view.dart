@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ class ProfileEditSkillView extends GetView<ProfileEditSkillController> {
   const ProfileEditSkillView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final firestore = FirebaseFirestore.instance;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -28,9 +30,14 @@ class ProfileEditSkillView extends GetView<ProfileEditSkillController> {
           ),
           centerTitle: true,
           actions: [
-            IconButton(onPressed: () {
-              controller.saveSkill();
-            }, icon: Icon(Icons.check_rounded, color: Colors.cyan,)),
+            IconButton(
+                onPressed: () {
+                  controller.saveSkill();
+                },
+                icon: Icon(
+                  Icons.check_rounded,
+                  color: Colors.cyan,
+                )),
           ],
         ),
         body: Padding(
@@ -48,6 +55,41 @@ class ProfileEditSkillView extends GetView<ProfileEditSkillController> {
               const SizedBox(
                 height: 16,
               ),
+              Expanded(
+                  child: StreamBuilder(
+                      stream: firestore
+                          .collection('users')
+                          .doc(controller.email)
+                          .collection('skills')
+                          .snapshots(),
+                      builder: (_, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final data = snapshot.data!.docs;
+                        return ListView.builder(
+                            itemCount: data.length,
+                            itemBuilder: (_, index) {
+                              return ListTile(
+                                title: Text(data[index]['title']),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      firestore.collection('users')
+                                          .doc(controller.email)
+                                          .collection('skills')
+                                          .doc(data[index]['uuid'])
+                                          .delete();
+                                    },
+                                    icon: Icon(
+                                      Icons.delete_rounded,
+                                      color: Colors.red,
+                                    )),
+                              );
+                            });
+                      })),
             ],
           ),
         ));

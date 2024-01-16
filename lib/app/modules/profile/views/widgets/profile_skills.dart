@@ -63,58 +63,15 @@ class ProfileSkills extends StatelessWidget {
                           data.length,
                           (index) => Chip(
                             backgroundColor: Colors.cyan[600],
-                            label: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Visibility(
-                                  visible: email == controller.email,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Get.defaultDialog(
-                                      title: 'Delete',
-                                      middleText:
-                                          'Are you sure you want to delete this Skill?',
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            firestore
-                                                .collection('users')
-                                                .doc(email)
-                                                .collection('skills')
-                                                .doc(data.elementAt(index)['uuid'])
-                                                .delete();
-                                            Get.back();
-                                            controller.update();
-                                          },
-                                          child: Text('Yes'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.back();
-                                          },
-                                          child: Text('No'),
-                                        ),
-                                      ],
-                                    );
-                                    },
-                                    child: Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
+                            label: Text(
+                              data.elementAt(index)['title'],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.white,
                                   ),
-                                ),
-                                Text(
-                                  data.elementAt(index)['title'],
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white,
-                                      ),
-                                ),
-                              ],
                             ),
                           ),
                         ));
