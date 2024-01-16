@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller.dart';
 import 'package:getx_skeleton/app/routes/app_pages.dart';
+import 'package:intl/intl.dart';
 
 class ProfileCertification extends StatelessWidget {
   ProfileCertification({required this.email});
@@ -89,6 +90,13 @@ class ProfileCertification extends StatelessWidget {
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final itemData = data[index].data();
+                      DateTime dateTime =
+                          DateTime.parse(itemData['publish_date']);
+                      String startDate =
+                          DateFormat('MMMM, yyyy').format(dateTime);
+                      DateTime dateTimeEnd =
+                            DateTime.parse(itemData['expire_date']);
+                      String endDate = DateFormat('MMMM, yyyy').format(dateTimeEnd);
                       return Container(
                         margin: EdgeInsets.only(top: 8),
                         width: double.infinity,
@@ -108,13 +116,57 @@ class ProfileCertification extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListTile(
-                          title: Text(
-                            itemData['title'],
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                            overflow: TextOverflow.ellipsis,
+                          title: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  itemData['title'],
+                                  style:
+                                      Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Visibility(
+                                visible: email == controller.email,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.defaultDialog(
+                                      title: 'Delete',
+                                      middleText:
+                                          'Are you sure you want to delete this licenses?',
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            firestore
+                                                .collection('users')
+                                                .doc(email)
+                                                .collection('licences')
+                                                .doc(itemData['uuid'])
+                                                .delete();
+                                            Get.back();
+                                            controller.update();
+                                          },
+                                          child: Text('Yes'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          child: Text('No'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red[400],
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +181,7 @@ class ProfileCertification extends StatelessWidget {
                                     ),
                               ),
                               Text(
-                                'Jan 2021 - Present',
+                                '$startDate - $endDate',
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
