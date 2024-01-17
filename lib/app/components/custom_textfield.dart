@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
 class CustomTextfield extends StatelessWidget {
-  CustomTextfield({required this.hintText, this.obscureText = false, this.prefixIcon, this.suffixIcon, required this.controller});
+  CustomTextfield({
+    required this.hintText,
+    this.obscureText = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    required this.controller,
+    this.onTap,
+  });
   String hintText;
   bool obscureText;
   IconData? prefixIcon;
   IconData? suffixIcon;
   TextEditingController controller;
+  void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +27,15 @@ class CustomTextfield extends StatelessWidget {
         ),
         hintText: hintText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon: obscureText ? Icon(Icons.visibility) : null,
+        suffix: suffixIcon != null
+            ? GestureDetector(
+                onTap: onTap,
+                child: Icon(
+                  suffixIcon,
+                  color: Colors.grey,
+                ),
+              )
+            : null,
       ),
     );
   }

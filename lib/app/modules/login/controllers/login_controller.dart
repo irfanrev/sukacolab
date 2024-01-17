@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
 
   var isLoading = false.obs;
+  var isObscure = true.obs;
 
   Future login() async {
     try {
@@ -43,6 +44,10 @@ class LoginController extends GetxController {
         Get.snackbar('Error', 'Wrong password provided for that user');
       }
     }
+  }
+
+  void toggleObscure() {
+    isObscure.value = !isObscure.value;
   }
 
   addLocalUserEmail() async {

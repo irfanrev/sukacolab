@@ -28,7 +28,6 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
             const SizedBox(
               height: 20,
             ),
-            
             Text('Enter your email address and we will send you a link to reset your password',
                 style: theme.textTheme.bodyLarge!.copyWith(
                   color: theme.textTheme.bodyLarge!.color!.withOpacity(0.5),

@@ -49,11 +49,17 @@ class LoginView extends GetView<LoginController> {
             const SizedBox(
               height: 16,
             ),
-            CustomTextfield(
-              hintText: 'Your Password',
-              prefixIcon: Icons.lock_outline,
-              obscureText: true,
-              controller: controller.passwordController,
+            Obx(
+              () => CustomTextfield(
+                hintText: 'Your Password',
+                prefixIcon: Icons.lock_outline,
+                suffixIcon: controller.isObscure.value
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
+                onTap: () => controller.toggleObscure(),
+                obscureText: controller.isObscure.value,
+                controller: controller.passwordController,
+              ),
             ),
             const SizedBox(
               height: 32,

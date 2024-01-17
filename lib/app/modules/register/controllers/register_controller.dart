@@ -16,6 +16,8 @@ class RegisterController extends GetxController {
   TextEditingController rePasswordController = TextEditingController();
 
   final isLoading = false.obs;
+  var isObscure = true.obs;
+  var isReObscure = true.obs;
 
 
   Future register() async {
@@ -83,5 +85,13 @@ class RegisterController extends GetxController {
       Get.snackbar('Error', e.toString());
     }
     isLoading.value = false;
+  }
+
+  void toggleObscure() {
+    isObscure.value = !isObscure.value;
+  }
+
+  void toggleReObscure() {
+    isReObscure.value = !isReObscure.value;
   }
 }

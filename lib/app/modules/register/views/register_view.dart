@@ -58,20 +58,32 @@ class RegisterView extends GetView<RegisterController> {
             const SizedBox(
               height: 16,
             ),
-            CustomTextfield(
-              hintText: 'Password',
-              prefixIcon: Icons.lock_outline,
-              obscureText: true,
-              controller: controller.passwordController,
+            Obx(
+              () => CustomTextfield(
+                hintText: 'Password',
+                prefixIcon: Icons.lock_outline,
+                suffixIcon: controller.isObscure.value
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
+                onTap: () => controller.toggleObscure(),
+                obscureText: controller.isObscure.value,
+                controller: controller.passwordController,
+              ),
             ),
             const SizedBox(
               height: 16,
             ),
-            CustomTextfield(
-              hintText: 'Password Again',
-              prefixIcon: Icons.lock_outline,
-              obscureText: true,
-              controller: controller.rePasswordController,
+            Obx(
+              () => CustomTextfield(
+                hintText: 'Password Again',
+                prefixIcon: Icons.lock_outline,
+                suffixIcon: controller.isReObscure.value
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
+                onTap: () => controller.toggleReObscure(),
+                obscureText: controller.isReObscure.value,
+                controller: controller.rePasswordController,
+              ),
             ),
             const SizedBox(
               height: 32,
