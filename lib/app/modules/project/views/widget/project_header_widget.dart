@@ -365,6 +365,11 @@ class ProjectSearch extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
+                  if (data.isEmpty) {
+                    return Center(
+                      child: Text('No Data Found'),
+                    );
+                  }
                   return ProjectListing(
                     snap: data[index].data(),
                   );

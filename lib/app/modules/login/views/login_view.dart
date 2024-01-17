@@ -69,7 +69,9 @@ class LoginView extends GetView<LoginController> {
               height: 16,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.FORGOT_PASSWORD);
+              },
               child: Text('Forgot Password?'),
             ),
             Row(

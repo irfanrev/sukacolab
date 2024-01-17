@@ -25,6 +25,7 @@ abstract class Routes {
   static const PURPOSE_PROJECT = _Paths.PURPOSE_PROJECT;
   static const ADD_PROJECT = _Paths.ADD_PROJECT;
   static const ONBOARDING = _Paths.ONBOARDING;
+  static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
 }
 
 abstract class _Paths {
@@ -46,4 +47,5 @@ abstract class _Paths {
   static const PURPOSE_PROJECT = '/purpose-project';
   static const ADD_PROJECT = '/add-project';
   static const ONBOARDING = '/onboarding';
+  static const FORGOT_PASSWORD = '/forgot-password';
 }
