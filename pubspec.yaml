@@ -49,6 +49,7 @@ dependencies:
   flutter_native_splash:
   flutter_inappwebview: ^5.8.0
   syncfusion_flutter_pdfviewer: ^24.1.44
+  avatar_glow:
 
 dev_dependencies:
   mockito:

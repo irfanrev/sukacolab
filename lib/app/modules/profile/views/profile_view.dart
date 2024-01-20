@@ -21,22 +21,6 @@ class ProfileView extends GetView<ProfileController> {
 
     return Scaffold(
         backgroundColor: Colors.grey[200],
-        appBar: AppBar(
-          backgroundColor: Colors.cyan[600],
-          title: const Text(''),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.share),
-            ),
-            if (arguments == null)
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.settings),
-              ),
-          ],
-          centerTitle: true,
-        ),
         body: GetBuilder<ProfileController>(
             init: ProfileController(),
             builder: (controller) {

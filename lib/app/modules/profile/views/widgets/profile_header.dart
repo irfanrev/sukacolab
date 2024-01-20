@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,24 +16,30 @@ class ProfileHeader extends StatelessWidget {
         stream: firestore.collection('users').doc(email.toString()).snapshots(),
         builder: (_, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           final data = snapshot.data!.data();
           return Container(
             width: double.infinity,
-            height: 180,
+            height: 270,
             color: Colors.cyan[600],
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 45,
-                  backgroundImage: NetworkImage(data!['photoUrl']!),
+                const SizedBox(
+                  height: 34,
+                ),
+                AvatarGlow(
+                  glowRadiusFactor: 0.3,
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundImage: NetworkImage(data!['photoUrl']!),
+                  ),
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 20,
                 ),
                 Text(
                   data['name'],
