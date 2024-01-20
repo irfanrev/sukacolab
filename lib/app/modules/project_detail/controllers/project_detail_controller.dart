@@ -50,6 +50,7 @@ class ProjectDetailController extends GetxController {
   }
 
   void addBookmark(
+      String projectEmail,
       String projectUuid,
       String jobdesc,
       String title,
@@ -67,6 +68,7 @@ class ProjectDetailController extends GetxController {
           .collection('bookmarks')
           .doc(projectUuid)
           .set({
+        'email': projectEmail,
         'uuid': projectUuid,
         'jobdesc': jobdesc,
         'title': title,

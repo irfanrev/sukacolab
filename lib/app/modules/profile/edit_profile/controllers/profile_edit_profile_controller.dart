@@ -42,7 +42,8 @@ class ProfileEditProfileController extends GetxController {
 
   void getImage(ImageSource source) async {
     try {
-      final pickedImage = await ImagePicker().pickImage(source: source, imageQuality: 50);
+      final pickedImage =
+          await ImagePicker().pickImage(source: source, imageQuality: 50);
       if (pickedImage != null) {
         imageFile = pickedImage;
         isImagePicked.value = true;
@@ -78,34 +79,35 @@ class ProfileEditProfileController extends GetxController {
   // }
 
   void uploadImagetoFirebaseStorage() async {
-  isLoading.value = true;
-  if (imageFile == null) {
-    Get.snackbar('Error', 'Please select an image',
-        backgroundColor: Colors.deepOrange);
-    isLoading.value = false;
-    return;
-  } else {
-    // Upload gambar ke Firebase Storage
-    var storageRef = firebaseStorage.ref().child('users/${email.toString()}');
-    var uploadTask = storageRef.putFile(File(imageFile!.path));
-    
-    // Menunggu hingga proses upload selesai
-    var snapshot = await uploadTask.whenComplete(() {});
-    var downloadUrl = await snapshot.ref.getDownloadURL();
-    
-    final prefs = await SharedPreferences.getInstance();
-    final ref = firestore.collection('users').doc(prefs.getString('localUserEmail'));
-    
-    // Update data 'photoUrl' di Firestore dengan URL gambar yang diunggah
-    await ref.update({
-      'photoUrl': downloadUrl,
-    });
+    isLoading.value = true;
+    if (imageFile == null) {
+      Get.snackbar('Error', 'Please select an image',
+          backgroundColor: Colors.deepOrange);
+      isLoading.value = false;
+      return;
+    } else {
+      // Upload gambar ke Firebase Storage
+      var storageRef = firebaseStorage.ref().child('users/${email.toString()}');
+      var uploadTask = storageRef.putFile(File(imageFile!.path));
 
-    Get.snackbar('Success', 'Photo updated successfully',
-        backgroundColor: Colors.green);
-    isLoading.value = false;
+      // Menunggu hingga proses upload selesai
+      var snapshot = await uploadTask.whenComplete(() {});
+      var downloadUrl = await snapshot.ref.getDownloadURL();
+
+      final prefs = await SharedPreferences.getInstance();
+      final ref =
+          firestore.collection('users').doc(prefs.getString('localUserEmail'));
+
+      // Update data 'photoUrl' di Firestore dengan URL gambar yang diunggah
+      await ref.update({
+        'photoUrl': downloadUrl,
+      });
+
+      Get.snackbar('Success', 'Photo updated successfully',
+          backgroundColor: Colors.green);
+      isLoading.value = false;
+    }
   }
-}
 
   void updateProfile() async {
     isLoading.value = true;

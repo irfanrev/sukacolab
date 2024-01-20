@@ -320,7 +320,10 @@ class ProjectContent extends StatelessWidget {
         init: ProjectController(),
         builder: (controller) {
           return StreamBuilder(
-            stream: firestore.collection('projects').snapshots(),
+            stream: firestore
+                .collection("projects")
+                .orderBy("published_at", descending: true)
+                .snapshots(),
             builder: (_, snapshot) {
               if (snapshot.hasData) {
                 final data = snapshot.data!.docs;

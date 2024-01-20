@@ -7,6 +7,7 @@ class BookmarkController extends GetxController {
   
   final firestore = FirebaseFirestore.instance;
   ScrollController scrollController = ScrollController();
+  final tabBarController = TabController(length: 2, vsync: NavigatorState());
 
   var email;
   var isScolling = false.obs;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/components/custom_button.dart';
 import 'package:getx_skeleton/app/components/custom_textfield.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../controllers/add_project_controller.dart';
 
@@ -78,7 +79,7 @@ class AddProjectView extends GetView<AddProjectController> {
                 CustomTextfield(
                   prefixIcon: Icons.timelapse,
                   hintText: 'Ex : Contract 3 months',
-                  controller: controller.projectName,
+                  controller: controller.projectStatus,
                 ),
                 const SizedBox(
                   height: 12,
@@ -93,7 +94,7 @@ class AddProjectView extends GetView<AddProjectController> {
                 CustomTextfield(
                   prefixIcon: Icons.location_on,
                   hintText: 'Ex : Remote',
-                  controller: controller.projectName,
+                  controller: controller.projectLocation,
                 ),
                 const SizedBox(
                   height: 12,
@@ -136,7 +137,7 @@ class AddProjectView extends GetView<AddProjectController> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Obx(
-                    () => (controller.isFilePicked.value == false)
+                    () => (controller.isImagePicked.value == false)
                         ? Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -148,6 +149,30 @@ class AddProjectView extends GetView<AddProjectController> {
                                 const SizedBox(width: 12),
                                 InkWell(
                                   onTap: () {
+                                    Get.defaultDialog(
+                                        title: 'Choose Image',
+                                        content: Column(
+                                          children: [
+                                            ListTile(
+                                              onTap: () {
+                                                controller.getImage(
+                                                    ImageSource.camera);
+                                                Get.back();
+                                              },
+                                              leading: Icon(Icons.camera_alt),
+                                              title: Text('Camera'),
+                                            ),
+                                            ListTile(
+                                              onTap: () {
+                                                controller.getImage(
+                                                    ImageSource.gallery);
+                                                Get.back();
+                                              },
+                                              leading: Icon(Icons.photo),
+                                              title: Text('Gallery'),
+                                            ),
+                                          ],
+                                        ));
                                   },
                                   child: Text(
                                     'Tap to Upload Image',
@@ -185,14 +210,14 @@ class AddProjectView extends GetView<AddProjectController> {
                   height: 28,
                 ),
                 Obx(
-                () => CustomButton(
-                  isLoading: controller.isLoading.value,
-                  text: 'Submit',
-                  onTap: () {
-                   
-                  },
+                  () => CustomButton(
+                    isLoading: controller.isLoading.value,
+                    text: 'Submit',
+                    onTap: () {
+                      controller.addProject();
+                    },
+                  ),
                 ),
-              ),
                 const SizedBox(
                   height: 32,
                 ),

@@ -228,6 +228,26 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                             ],
                           ),
                           const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.email_outlined,
+                                color: Colors.black45,
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                data['email'],
+                                style: TextStyle(
+                                  color: Colors.grey.shade400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
                             height: 12,
                           ),
                           Divider(
@@ -296,6 +316,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                               ),
                               onPressed: () {
                                 controller.addBookmark(
+                                  data['email'],
                                   data['uuid'],
                                   data['jobdesc'],
                                   data['title'],

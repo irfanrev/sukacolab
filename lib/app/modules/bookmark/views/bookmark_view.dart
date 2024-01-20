@@ -11,44 +11,61 @@ class BookmarkView extends GetView<BookmarkController> {
   @override
   Widget build(BuildContext context) {
     final firestore = FirebaseFirestore.instance;
-
-    return Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.cyan[600],
-          title: const Text('Bookmark'),
+          title: const Text('Bookmarks'),
           centerTitle: true,
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: 'Bookmarks',
+              ),
+              Tab(
+                text: 'My Projects',
+              ),
+            ],
+          ),
         ),
-        body: GetBuilder<BookmarkController>(
-            init: BookmarkController(),
-            builder: (controller) {
-              return StreamBuilder(
-                stream: firestore
-                    .collection('users')
-                    .doc(controller.email)
-                    .collection('bookmarks')
-                    .snapshots(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.data!.docs.isEmpty) {
-                    return Center(
-                      child: Text('No Bookmark Found'),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      final data = snapshot.data!.docs[index];
-                      return ProjectListing(
-                        snap: data.data(),
-                      );
-                    },
-                  );
-                },
-              );
-            }));
+        body: TabBarView(
+          children: [
+            // SizedBox.expand(
+            //   child: StreamBuilder(
+            //     stream: firestore
+            //         .collection('users')
+            //         .doc(controller.email)
+            //         .collection('bookmarks')
+            //         .snapshots(),
+            //     builder: (_, snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.waiting) {
+            //         return Center(
+            //           child: CircularProgressIndicator(),
+            //         );
+            //       }
+            //       if (snapshot.data!.docs.isEmpty) {
+            //         return Center(
+            //           child: Text('No Bookmark Found'),
+            //         );
+            //       }
+            //       return ListView.builder(
+            //         itemCount: snapshot.data!.docs.length,
+            //         itemBuilder: (context, index) {
+            //           final data = snapshot.data!.docs[index];
+            //           return ProjectListing(
+            //             snap: data.data(),
+            //           );
+            //         },
+            //       );
+            //     },
+            //   ),
+            // ),
+            Text('page 1'),
+            Text('page 2')
+          ],
+        ),
+      ),
+    );
   }
 }
