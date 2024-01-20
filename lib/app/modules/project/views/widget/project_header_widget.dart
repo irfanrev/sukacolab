@@ -56,13 +56,26 @@ class ProjectHeaderWidget extends StatelessWidget {
                                 const SizedBox(
                                   width: 12,
                                 ),
-                                Text(
-                                  'Hey, ${data['name']}',
-                                  style: theme.textTheme.bodyLarge!.copyWith(
-                                    color: Colors.white,
-                                    fontSize: 18,
+                                Expanded(
+                                  child: Text(
+                                    'Hey, ${data['name']}',
+                                    style: theme.textTheme.bodyLarge!.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                )
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    Get.toNamed(Routes.ADD_PROJECT);
+                                  },
+                                  icon: Icon(
+                                    Icons.add_box_rounded,
+                                    size: 30,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ],
                             ).animate().fade().slide();
                           } else {
