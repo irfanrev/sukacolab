@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BookmarkController extends GetxController {
+class BookmarkController extends GetxController with GetSingleTickerProviderStateMixin{
   
   final firestore = FirebaseFirestore.instance;
   ScrollController scrollController = ScrollController();
-  final tabBarController = TabController(length: 2, vsync: NavigatorState());
+
+  final List<Widget> myTabs = [
+    Tab(text: 'Bookmark'),
+    Tab(text: 'My Project'),
+  ];
+
+  late TabController controller;
 
   var email;
   var isScolling = false.obs;
@@ -15,7 +21,14 @@ class BookmarkController extends GetxController {
   @override
   void onInit() {
     getLocalData();
+    controller = TabController(vsync: this, length: myTabs.length);
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    controller.dispose();
+    super.onClose();
   }
 
   Future getLocalData() async {

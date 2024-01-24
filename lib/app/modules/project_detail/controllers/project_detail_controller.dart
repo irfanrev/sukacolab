@@ -8,7 +8,7 @@ class ProjectDetailController extends GetxController {
 
   var isLoading = false.obs;
   var username;
-  var userEmail;
+  var userEmail = ''.obs;
   var imageUrl;
   var uuidProjectDetail;
   var isVerified = false.obs;
@@ -29,7 +29,7 @@ class ProjectDetailController extends GetxController {
         .get();
     print(Get.arguments['uuid']);
     username = userData.data()!['name'];
-    userEmail = userData.data()!['email'];
+    userEmail.value = userData.data()!['email'];
     imageUrl = userData.data()!['photoUrl'];
     isVerified.value = userData.data()!['isVerified'];
   }
@@ -64,7 +64,7 @@ class ProjectDetailController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       await _firestore
           .collection('users')
-          .doc(userEmail)
+          .doc(userEmail.value)
           .collection('bookmarks')
           .doc(projectUuid)
           .set({
@@ -95,7 +95,7 @@ class ProjectDetailController extends GetxController {
   void removeBookmark(String projectUuid) async {
     isLoading.value = true;
     try {
-      await _firestore.collection('users').doc(userEmail).collection('bookmarks').doc(projectUuid).delete();
+      await _firestore.collection('users').doc(userEmail.value).collection('bookmarks').doc(projectUuid).delete();
       final prefs = await SharedPreferences.getInstance();
       prefs.remove(projectUuid);
       isBookmarked.value = false;
@@ -115,7 +115,7 @@ class ProjectDetailController extends GetxController {
     isLoading.value = true;
     await _firestore
         .collection('users')
-        .doc(userEmail)
+        .doc(userEmail.value)
         .collection('applications')
         .doc(uuid)
         .set(
@@ -134,10 +134,10 @@ class ProjectDetailController extends GetxController {
         .collection('projects')
         .doc(uuid)
         .collection('applications')
-        .doc(userEmail)
+        .doc(userEmail.value)
         .set(
       {
-        'email': userEmail,
+        'email': userEmail.value,
         'name': username,
         'photoUrl': imageUrl,
         'status': 'Submited',

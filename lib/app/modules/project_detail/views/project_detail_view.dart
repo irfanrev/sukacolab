@@ -35,7 +35,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
         actions: [
           Obx(
             () => Visibility(
-              visible: controller.isVerified.value == true,
+              visible: Get.arguments['email'] == controller.userEmail.value,
               child: IconButton(
                 onPressed: () {
                   // list of registered join project
@@ -62,6 +62,11 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (_, index) {
                               final itemData = snapshot.data!.docs;
+                              if (itemData.isEmpty) {
+                                return Center(
+                                  child: Text('No Application Found'),
+                                );
+                              }
                               return ListTile(
                                 onTap: () => Get.toNamed(Routes.PROFILE,
                                     arguments:
