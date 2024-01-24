@@ -8,7 +8,7 @@ class ProjectDetailController extends GetxController {
 
   var isLoading = false.obs;
   var username;
-  var userEmail = ''.obs;
+  RxString userEmail = ''.obs;
   var imageUrl;
   var uuidProjectDetail;
   var isVerified = false.obs;
