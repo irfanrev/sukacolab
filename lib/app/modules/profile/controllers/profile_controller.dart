@@ -77,4 +77,13 @@ class ProfileController extends GetxController {
           backgroundColor: Colors.deepOrange, colorText: Colors.white);
     }
   }
+
+  void toPrivacyPolicy() async {
+    try {
+      var url = "https://github.com/irfanrev/sukacolab-privacy/blob/main/README.md";
+      await launch(url, enableJavaScript: true);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

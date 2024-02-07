@@ -28,7 +28,7 @@ class LoginController extends GetxController {
         isLoading.value = false;
         return;
       } else {
-        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        await _auth.signInWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
@@ -43,7 +43,11 @@ class LoginController extends GetxController {
       } else if (e.code == 'wrong-password') {
         Get.snackbar('Error', 'Wrong password provided for that user');
       }
+    } catch (e) {
+      Get.snackbar('Error', 'Something error');
+      isLoading.value = false;
     }
+    isLoading.value = false;
   }
 
   void toggleObscure() {

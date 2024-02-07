@@ -73,40 +73,8 @@ class ProfileView extends GetView<ProfileController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: () {
-                                  Get.defaultDialog(
-                                    title: 'Coming Soon',
-                                    middleText: 'This feature is coming soon',
-                                  );
-                                },
+                                onPressed: () => controller.toPrivacyPolicy(),
                                 child: const Text('Privacy Policy'),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  Get.defaultDialog(
-                                    title: 'Coming Soon',
-                                    middleText: 'This feature is coming soon',
-                                  );
-                                },
-                                icon:
-                                    const Icon(Icons.arrow_forward_ios_rounded),
-                              ),
-                            ]),
-                      ),
-                    if (arguments == null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Get.defaultDialog(
-                                    title: 'Coming Soon',
-                                    middleText: 'This feature is coming soon',
-                                  );
-                                },
-                                child: const Text('About App'),
                               ),
                               IconButton(
                                 onPressed: () {},
@@ -115,7 +83,7 @@ class ProfileView extends GetView<ProfileController> {
                               ),
                             ]),
                       ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16,
                     ),
                     Visibility(
@@ -147,7 +115,17 @@ class ProfileView extends GetView<ProfileController> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    const Text(
+                      'Sukacolab V1.0',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
                       height: 100,
                     ),
                   ],
