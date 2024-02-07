@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -157,43 +159,81 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                           const SizedBox(
                             height: 12,
                           ),
-                          Container(
-                            width: double.infinity,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.amber[50],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
-                                  child: Icon(
-                                    Icons.new_releases,
-                                    color: Colors.amber,
+                          if (data['isVerified'] == true)
+                            Container(
+                              width: double.infinity,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.green[50],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Padding(
+                                    padding:  EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Icon(
+                                      Icons.verified,
+                                      color: Colors.green,
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                    child: Text(
-                                  'Your maybe strong candidate for this project',
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                  Expanded(
+                                      child: Text(
+                                    'This project is verified by the admin',
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )),
+                                  const SizedBox(
+                                    width: 8,
                                   ),
-                                )),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                              ],
+                                ],
+                              ),
+                            )
+                            else 
+                            Container(
+                              width: double.infinity,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                color: Colors.cyan[50],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: Icon(
+                                      Icons.people,
+                                      color: Colors.cyan[900],
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    'This project created for community purpose',
+                                    style: TextStyle(
+                                      color: Colors.cyan[900],
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
                           const SizedBox(
                             height: 12,
                           ),
                           Divider(
                             color: Colors.grey.shade300,
+                          ),
+                          
+                          SizedBox(
+                            height: 8,
                           ),
                           Row(
                             children: [
@@ -330,6 +370,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                                   data['published_at'],
                                   data['status'],
                                   data['imageUrl'],
+                                  data['isVerified'],
                                 );
                               },
                               child: Padding(

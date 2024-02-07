@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -58,7 +60,9 @@ class ProjectDetailController extends GetxController {
       String location,
       Timestamp publishedAt,
       String status,
-      String imageUrl) async {
+      String imageUrl,
+      bool isVerified,
+      ) async {
     isLoading.value = true;
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -77,6 +81,7 @@ class ProjectDetailController extends GetxController {
         'published_at': publishedAt,
         'status': status,
         'imageUrl': imageUrl,
+        'isVerified': isVerified,
       });
       prefs.setString(projectUuid, projectUuid);
       print('projectUuid: $projectUuid');

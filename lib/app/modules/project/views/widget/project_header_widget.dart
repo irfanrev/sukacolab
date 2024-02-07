@@ -275,12 +275,17 @@ class ProjectListing extends StatelessWidget {
                         backgroundImage: NetworkImage(snap['imageUrl']),
                       ),
                       IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            EvaIcons.code,
-                            size: 28,
-                            color: Colors.grey[600],
-                          ))
+                        onPressed: () {},
+                        icon: (snap['isVerified'] == true)
+                            ? Icon(
+                                Icons.verified,
+                                color: Colors.cyan[600],
+                              )
+                            : Icon(
+                                Icons.people,
+                                color: Colors.grey.shade400,
+                              ),
+                      ),
                     ],
                   )),
               SizedBox(

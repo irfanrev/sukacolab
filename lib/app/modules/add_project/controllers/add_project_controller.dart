@@ -72,6 +72,7 @@ class AddProjectController extends GetxController {
           'email': email,
           'uuid': uuid,
           'published_at': DateTime.now(),
+          'isVerified': false,
         });
     } catch (e) {
       print(e);
@@ -132,6 +133,7 @@ class AddProjectController extends GetxController {
           'email': email,
           'uuid': uuidProject.toString(),
           'published_at': DateTime.now(),
+          'isVerified': false,
         });
         Get.snackbar('Success', 'Project submited successfully',
             backgroundColor: Colors.green);
