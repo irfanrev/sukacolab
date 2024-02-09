@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/project/controllers/project_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../../../routes/app_pages.dart';
 
@@ -32,14 +33,20 @@ class ProjectHeaderWidget extends StatelessWidget {
                     height: 24,
                   ),
                   Obx(
-                    () => StreamBuilder(
-                        stream: firestore
-                            .collection('users')
-                            .doc(controller.email.value)
-                            .snapshots(),
-                        builder: (_, snapshot) {
-                          if (snapshot.hasData &&
-                              snapshot.data!.data() != null) {
+                    () => Visibility(
+                      visible: controller.email.value != "",
+                      child: StreamBuilder(
+                          stream: firestore
+                              .collection('users')
+                              .doc(controller.email.value)
+                              .snapshots(),
+                          builder: (_, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
                             final data = snapshot.data!.data()!;
                             return Row(
                               children: [
@@ -70,70 +77,77 @@ class ProjectHeaderWidget extends StatelessWidget {
                                   onPressed: () {
                                     Get.toNamed(Routes.ADD_PROJECT);
                                   },
-                                  icon: Icon(
-                                    Icons.add_box_rounded,
-                                    size: 30,
-                                    color: Colors.white,
+                                  icon: Showcase(
+                                    key: controller.two,
+                                    description:
+                                        'You can add your project and hire best talent',
+                                    child: Icon(
+                                      Icons.add_box_rounded,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ],
                             ).animate().fade().slide();
-                          } else {
-                            return SizedBox();
-                          }
-                        }),
+                          }),
+                    ),
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          height: 52,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
-                          ),
-                          child: Expanded(
-                            child: Center(
-                              child: TextField(
-                                controller: controller.search,
-                                decoration: const InputDecoration(
-                                  hintText: 'Search based on title',
-                                  border: InputBorder.none,
+                  Showcase(
+                    key: controller.one,
+                    description: 'You can search project or role',
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            height: 52,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: Expanded(
+                              child: Center(
+                                child: TextField(
+                                  controller: controller.search,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Search based on title',
+                                    border: InputBorder.none,
+                                  ),
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  keyboardType: TextInputType.text,
+                                  textInputAction: TextInputAction.search,
+                                  onSubmitted: (value) {
+                                    controller.searchProject();
+                                  },
                                 ),
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.search,
-                                onSubmitted: (value) {
-                                  controller.searchProject();
-                                },
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      InkWell(
-                        onTap: () => controller.searchProject(),
-                        child: Container(
-                          height: 52,
-                          width: 52,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.amber),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.white,
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () => controller.searchProject(),
+                          child: Container(
+                            height: 52,
+                            width: 52,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.amber),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -149,64 +163,69 @@ class BannerProject extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final controler = Get.put(ProjectController());
     return InkWell(
       onTap: () {
         Get.toNamed(Routes.PURPOSE_PROJECT);
       },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        padding: EdgeInsets.all(10),
-        width: double.infinity,
-        height: 130,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: Colors.deepPurple,
-        ),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                EvaIcons.bulbOutline,
-                size: 52,
-                color: Colors.amber,
+      child: Showcase(
+        key: controler.three,
+        description: 'If you have a project and need help',
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: EdgeInsets.all(10),
+          width: double.infinity,
+          height: 130,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.deepPurple,
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  EvaIcons.bulbOutline,
+                  size: 52,
+                  color: Colors.amber,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Have a project and need help?',
-                          style: theme.textTheme.headlineSmall!.copyWith(
-                            color: Colors.white,
-                          ))
-                      .animate()
-                      .fade(
-                        duration: Duration(milliseconds: 700),
-                      )
-                      .slide(),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    margin: EdgeInsets.only(top: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: Colors.amber,
-                    ),
-                    child: Text(
-                      'Contact us now!',
-                      style: theme.textTheme.bodyLarge!.copyWith(
-                        color: Colors.white,
+              SizedBox(
+                width: 8,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Have a project and need help?',
+                            style: theme.textTheme.headlineSmall!.copyWith(
+                              color: Colors.white,
+                            ))
+                        .animate()
+                        .fade(
+                          duration: Duration(milliseconds: 700),
+                        )
+                        .slide(),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      margin: EdgeInsets.only(top: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14),
+                        color: Colors.amber,
                       ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+                      child: Text(
+                        'Contact us now!',
+                        style: theme.textTheme.bodyLarge!.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -330,24 +349,23 @@ class ProjectContent extends StatelessWidget {
                 .orderBy("published_at", descending: true)
                 .snapshots(),
             builder: (_, snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data!.docs;
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return ProjectListing(
-                      snap: data[index].data(),
-                    );
-                  },
-                );
-              } else {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: Text('No Data Found'),
+                  child: CircularProgressIndicator(),
                 );
               }
+              final data = snapshot.data!.docs;
+              return ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return ProjectListing(
+                    snap: data[index].data(),
+                  );
+                },
+              );
             },
           );
         });

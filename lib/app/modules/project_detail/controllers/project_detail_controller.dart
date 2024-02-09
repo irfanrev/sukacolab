@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProjectDetailController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -150,5 +151,14 @@ class ProjectDetailController extends GetxController {
       },
     );
     isLoading.value = false;
+  }
+
+  void perfomeEmail(String mail) async {
+    try {
+      var url = "mailto:$mail?subject=Project Confirmation&body=Hello $mail,";
+      await launch(url);
+    } catch (e) {
+      print(e);
+    }
   }
 }

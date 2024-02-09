@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -114,17 +115,28 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.amber,
-                          image: DecorationImage(
-                            image: NetworkImage(data['imageUrl']),
-                            fit: BoxFit.cover,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.amber,
+                              image: DecorationImage(
+                                image: NetworkImage(data['imageUrl']),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
+                          GestureDetector(
+                            onTap: () => controller.perfomeEmail(data['email']),
+                              child: Icon(
+                            CupertinoIcons.text_bubble,
+                            color: Colors.cyan[600],
+                          ))
+                        ],
                       ),
                     ),
                     const SizedBox(
@@ -170,8 +182,8 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                               child: const Row(
                                 children: [
                                   Padding(
-                                    padding:  EdgeInsets.symmetric(
-                                        horizontal: 8),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8),
                                     child: Icon(
                                       Icons.verified,
                                       color: Colors.green,
@@ -192,7 +204,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                                 ],
                               ),
                             )
-                            else 
+                          else
                             Container(
                               width: double.infinity,
                               height: 60,
@@ -231,7 +243,6 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                           Divider(
                             color: Colors.grey.shade300,
                           ),
-                          
                           SizedBox(
                             height: 8,
                           ),
@@ -277,7 +288,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                           ),
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.email_outlined,
                                 color: Colors.black45,
                               ),

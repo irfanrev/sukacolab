@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_skeleton/app/modules/project/views/widget/project_header_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class ProjectController extends GetxController {
   //TODO: Implement ProjectController
   final firestore = FirebaseFirestore.instance;
   TextEditingController search = TextEditingController();
   var searchResult = ''.obs;
+
+  final GlobalKey one = GlobalKey();
+  final GlobalKey two = GlobalKey();
+  final GlobalKey three = GlobalKey();
+  final GlobalKey four = GlobalKey();
 
   var isBookmark = false.obs;
   var email = ''.obs;
@@ -41,5 +47,4 @@ class ProjectController extends GetxController {
       print(e);
     }
   }
-
 }
