@@ -38,7 +38,9 @@ class ProjectHeaderWidget extends StatelessWidget {
                       child: StreamBuilder(
                           stream: firestore
                               .collection('users')
-                              .doc(controller.email.value)
+                              .doc(controller.email.value.isEmpty
+                                  ? controller.initEmail
+                                  : controller.email.value)
                               .snapshots(),
                           builder: (_, snapshot) {
                             if (snapshot.connectionState ==

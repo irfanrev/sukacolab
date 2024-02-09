@@ -7,6 +7,7 @@ import 'package:getx_skeleton/app/modules/profile/controllers/profile_controller
 import 'package:getx_skeleton/app/modules/profile/views/profile_view.dart';
 import 'package:getx_skeleton/app/modules/project/controllers/project_controller.dart';
 import 'package:getx_skeleton/app/modules/project/views/project_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../utils/constants.dart';
 import '../../../services/api_call_status.dart';
@@ -16,6 +17,13 @@ import '../../bookmark/controllers/bookmark_controller.dart';
 class HomeController extends GetxController {
 
   RxInt selectedIndex = 0.obs;
+  var email = ''.obs;
+
+  @override
+  void onInit() {
+    getLocalData();
+    super.onInit();
+  }
 
 
   void changeTab(int index) {
@@ -27,7 +35,7 @@ class HomeController extends GetxController {
     } else if (index == 1) {
       Get.put(CommunityController());
     } else if (index == 0) {
-      Get.put(ProjectController());
+      Get.put(ProjectController(initEmail: email.toString()));
     }
     refresh();
     update();
@@ -45,6 +53,11 @@ class HomeController extends GetxController {
   List<dynamic>? data;
   // api call status
   ApiCallStatus apiCallStatus = ApiCallStatus.holding;
+
+  void getLocalData() async {
+    final prefs = await SharedPreferences.getInstance();
+    email.value = prefs.getString('localUserEmail')!;
+  }
 
   // getting data from api
   // getData() async {

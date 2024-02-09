@@ -10,6 +10,8 @@ class ProjectController extends GetxController {
   final firestore = FirebaseFirestore.instance;
   TextEditingController search = TextEditingController();
   var searchResult = ''.obs;
+  String? initEmail;
+  ProjectController({this.initEmail});
 
   final GlobalKey one = GlobalKey();
   final GlobalKey two = GlobalKey();
