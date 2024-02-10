@@ -153,12 +153,17 @@ class ProjectDetailController extends GetxController {
     isLoading.value = false;
   }
 
-  void perfomeEmail(String mail) async {
-    try {
-      var url = "mailto:$mail?subject=Project Confirmation&body=Hello $mail,";
+  void urlEmail(String email) async {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+    var url = params.toString();
+    if (await canLaunch(url)) {
       await launch(url);
-    } catch (e) {
-      print(e);
+    } else {
+      Get.snackbar('Error', 'Could not launch $url',
+          backgroundColor: Colors.deepOrange, colorText: Colors.white);
     }
   }
 }

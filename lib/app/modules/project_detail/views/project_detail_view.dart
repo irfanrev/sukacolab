@@ -131,7 +131,7 @@ class ProjectDetailView extends GetView<ProjectDetailController> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => controller.perfomeEmail(data['email']),
+                            onTap: () => controller.urlEmail(data['email']),
                               child: Icon(
                             CupertinoIcons.text_bubble,
                             color: Colors.cyan[600],
